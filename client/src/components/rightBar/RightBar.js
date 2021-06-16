@@ -13,7 +13,7 @@ export const RightBar = () => {
       <Text fontSize="xl" m="2rem">
         People You May Know
       </Text>
-      <Stack>
+      <Stack align="center">
         <ProfileCard
           name={"Tanay Pratap"}
           username={"tanaypratap"}

@@ -48,7 +48,7 @@ export const Feed = ({ myPost }) => {
         <Text
           align="left"
           p="1rem"
-          pb="2rem"
+          pb="1rem"
           color={isDark ? "whiteAlpha" : "blackAlpha"}
         >
           “In the sky there are always answers and explanations for everything:
@@ -60,7 +60,6 @@ export const Feed = ({ myPost }) => {
         justify={"space-between"}
         position="relative"
         align="center"
-        mx="1rem"
         p="1rem"
       >
         <Button>Upvote</Button>

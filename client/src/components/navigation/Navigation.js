@@ -55,16 +55,16 @@ export const Navigation = () => {
               Home
             </Button>
           </Link>
-          <Link to="/friends">
+          <Link to="/following">
             <Button
               as="a"
               cursor="pointer"
               variant="ghost"
-              aria-label="Friends"
+              aria-label="Following"
               my={5}
               w="100%"
             >
-              Friends
+              Following
             </Button>
           </Link>
           <Link to="/profile">
@@ -86,7 +86,7 @@ export const Navigation = () => {
               variant="ghost"
               aria-label="Notifications"
               my={5}
-              px={10}
+              px={5}
               w="100%"
             >
               Notifications
@@ -122,7 +122,7 @@ export const Navigation = () => {
         left="0"
         overflowY="auto"
         flexDir="column"
-        background="blackAlpha.900"
+        background={isDark ? "blackAlpha.900" : "whiteAlpha.900"}
       >
         <Flex justify="flex-end">
           <IconButton
@@ -148,16 +148,16 @@ export const Navigation = () => {
               Home
             </Button>
           </Link>
-          <Link to="/friends">
+          <Link to="/following">
             <Button
               cursor="pointer"
               as="a"
               variant="ghost"
-              aria-label="Friends"
+              aria-label="Following"
               my={5}
               w="100%"
             >
-              Friends
+              Following
             </Button>
           </Link>
           <Link to="/profile">
@@ -172,7 +172,7 @@ export const Navigation = () => {
               Profile
             </Button>
           </Link>
-          <Link to="/notification">
+          <Link to="/notifications">
             <Button
               cursor="pointer"
               as="a"

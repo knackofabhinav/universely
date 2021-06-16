@@ -1,5 +1,6 @@
 import { Flex, Button, Stack } from "@chakra-ui/react";
 import { useColorMode } from "@chakra-ui/react";
+import { Link } from "react-router-dom";
 
 export const SideBar = () => {
   const { colorMode } = useColorMode();
@@ -15,23 +16,40 @@ export const SideBar = () => {
         justify="space-between"
         w="20rem"
       >
-        <Stack w="50%" direction="column" spacing={6} mt="2rem">
-          <Button size="lg" colorScheme="blue" variant="ghost">
-            Home
-          </Button>
-          <Button size="lg" colorScheme="blue" variant="ghost">
-            Friends
-          </Button>
-          <Button size="lg" colorScheme="blue" variant="ghost">
-            Notifications
-          </Button>
-          <Button size="lg" colorScheme="blue" variant="ghost">
-            Profile
-          </Button>
+        <Stack
+          w="50%"
+          direction="column"
+          display="flex"
+          align="center"
+          spacing={6}
+          mt="2rem"
+        >
+          <Link to="/">
+            <Button size="lg" colorScheme="blue" variant="ghost">
+              Home
+            </Button>
+          </Link>
+          <Link to="/following">
+            <Button size="lg" colorScheme="blue" variant="ghost">
+              Following
+            </Button>
+          </Link>
+          <Link to="/notifications">
+            <Button size="lg" colorScheme="blue" variant="ghost">
+              Notifications
+            </Button>
+          </Link>
+          <Link to="/profile">
+            <Button size="lg" colorScheme="blue" variant="ghost">
+              Profile
+            </Button>
+          </Link>
         </Stack>
-        <Button size="md" mb="2rem" colorScheme="blue" variant="ghost">
-          About us
-        </Button>
+        <Link to="/about">
+          <Button size="md" mb="2rem" colorScheme="blue" variant="ghost">
+            About us
+          </Button>
+        </Link>
       </Flex>
     </Flex>
   );

@@ -4,14 +4,40 @@ import { Feed } from "../../components/feed/Feed";
 
 export const Homepage = () => {
   return (
-    <Flex justify="center" direction="column">
-      <NewPost />
-      <Feed />
-      <Feed />
-      <Feed />
-      <Feed />
-      <Feed />
-      <Feed />
+    <Flex>
+      {/* Desktop View */}
+      <Flex
+        display={["none", "none", "flex", "flex"]}
+        justify="center"
+        direction="column"
+        margin="1rem"
+        width="50vw"
+      >
+        <NewPost />
+        <Feed />
+        <Feed />
+        <Feed />
+        <Feed />
+        <Feed />
+        <Feed />
+      </Flex>
+
+      {/* Mobile View */}
+      <Flex
+        display={["flex", "flex", "none", "none"]}
+        justify="center"
+        align="center"
+        direction="column"
+        width="100%"
+      >
+        <NewPost />
+        <Feed />
+        <Feed />
+        <Feed />
+        <Feed />
+        <Feed />
+        <Feed />
+      </Flex>
     </Flex>
   );
 };

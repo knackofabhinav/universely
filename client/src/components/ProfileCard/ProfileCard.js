@@ -4,13 +4,14 @@ import { useColorMode } from "@chakra-ui/react";
 export const ProfileCard = ({ username, name, following, image }) => {
   const { colorMode } = useColorMode();
   const isDark = colorMode === "dark";
-
   return (
     <Box
       borderWidth="1px"
       borderRadius="lg"
       w="24rem"
       bg={isDark ? "blackAlpha.600" : "whiteAlpha.600"}
+      margin="1rem"
+      h="6.5rem"
     >
       <Flex align="center" justify="space-between">
         <Flex direction="row" padding="1rem" align="center">

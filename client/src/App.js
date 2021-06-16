@@ -6,25 +6,44 @@ import { Navigation } from "./components/navigation/Navigation";
 import { Homepage } from "./pages/home/Homepage";
 import { Profile } from "./pages/profile/Profile";
 import { SideBar } from "./components/sideBar/SideBar";
-import { Flex } from "@chakra-ui/react";
+import { Grid, GridItem, Flex } from "@chakra-ui/react";
 import { RightBar } from "./components/rightBar/RightBar";
-import { Friends } from "./pages/friends/Friends";
+import { Following } from "./pages/following/Following";
 import { Notifications } from "./pages/notifications/Notifications";
 
 function App() {
   return (
     <div className="App">
       <Navigation />
-      <Flex>
+      <Grid
+        templateColumns="repeat(3, 1fr)"
+        display={["none", "none", "flex", "flex"]}
+      >
         {/* <Counter /> */}
-        <SideBar />
+        <GridItem>
+          <SideBar />
+        </GridItem>
+        <GridItem>
+          <Routes>
+            <Route exact path="/" element={<Homepage />} />
+            <Route path="/profile" element={<Profile />} />
+            <Route path="/following" element={<Following />} />
+            <Route path="/notifications" element={<Notifications />} />
+          </Routes>
+        </GridItem>
+        <GridItem>
+          <RightBar />
+        </GridItem>
+      </Grid>
+
+      {/* Mobile View */}
+      <Flex display={["flex", "flex", "none", "none"]}>
         <Routes>
           <Route exact path="/" element={<Homepage />} />
           <Route path="/profile" element={<Profile />} />
-          <Route path="/friends" element={<Friends />} />
+          <Route path="/following" element={<Following />} />
           <Route path="/notifications" element={<Notifications />} />
         </Routes>
-        <RightBar />
       </Flex>
     </div>
   );
