@@ -1,9 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { useColorMode } from "@chakra-ui/react";
+// import { useColorMode } from "@chakra-ui/react";
+
+// const { colorMode, toggleColorMode } = useColorMode();
 const initialState = {
   isDark: false,
+  // colorMode: colorMode
 };
-// const { colorMode, toggleColorMode } = useColorMode();
 
 export const themeSlice = createSlice({
   name: "theme",

@@ -1,8 +1,9 @@
-import { Button, Image, Textarea, Box, Flex, Text } from "@chakra-ui/react";
-// import {changeTheme} from "../../features/theme/themeSlice"
+import { Button, Image, Textarea, Box, Flex } from "@chakra-ui/react";
+import { useColorMode } from "@chakra-ui/react";
 
 export const NewPost = () => {
-  const isDark = true;
+  const { colorMode } = useColorMode();
+  const isDark = colorMode === "dark";
   return (
     <Box
       w="90%"
