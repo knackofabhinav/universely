@@ -10,8 +10,11 @@ import { Grid, GridItem, Flex } from "@chakra-ui/react";
 import { RightBar } from "./components/rightBar/RightBar";
 import { Following } from "./pages/following/Following";
 import { Notifications } from "./pages/notifications/Notifications";
+import { useSelector } from "react-redux";
 
 function App() {
+  const posts = useSelector((state) => state.posts);
+  console.log(posts);
   return (
     <div className="App">
       <Navigation />
