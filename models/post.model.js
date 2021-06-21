@@ -1,16 +1,16 @@
-const mongoose = require("mongoose");
+const { Schema, model } = require("mongoose");
 import * as yup from "yup";
 
-const postSchema = new mongoose.Schema(
+const postSchema = new Schema(
   {
-    author: { type: mongoose.Schema.ObjectId, ref: "User", required },
+    author: { type: Schema.ObjectId, ref: "User", required },
     caption: yup.string(),
-    likes: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
-    comments: [{ type: mongoose.Schema.Types.ObjectId, ref: "Comment" }],
+    likes: [{ type: Schema.Types.ObjectId, ref: "User" }],
+    comments: [{ type: Schema.Types.ObjectId, ref: "Comment" }],
   },
   { timestamps }
 );
 
-const Post = mongoose.model("Post", postSchema);
+const Post = model("Post", postSchema);
 
 module.exports = { Post };
