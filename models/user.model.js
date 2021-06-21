@@ -1,5 +1,5 @@
 const { Schema, model } = require("mongoose");
-import * as yup from "yup";
+const yup = require("yup");
 
 const userSchema = new Schema(
   {
@@ -12,7 +12,7 @@ const userSchema = new Schema(
     following: [{ type: Schema.Types.ObjectId, ref: "User" }],
     email: yup.string().email(),
   },
-  { timestamps }
+  { timestamps: true }
 );
 
 const User = model("User", userSchema);
