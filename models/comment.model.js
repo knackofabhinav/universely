@@ -1,13 +1,13 @@
 const { Schema, model } = require("mongoose");
-import * as yup from "yup";
 
 const commentSchema = new Schema(
   {
-    username: yup.string().required(),
+    userId: { type: Schema.Types.ObjectId, ref: "User" },
+    commentText: String,
     post: { type: Schema.Types.ObjectId, ref: "Post" },
     upvote: [{ type: Schema.Types.ObjectId, ref: "User" }],
   },
-  { timestamps }
+  { timestamps: true }
 );
 
 const Comment = model("Comment", commentSchema);

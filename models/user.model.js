@@ -4,12 +4,12 @@ const yup = require("yup");
 const userSchema = new Schema(
   {
     username: yup.string().required(),
-    firstName: yup.string(),
-    lastName: yup.string(),
+    firstName: { type: String, default: "Unknown" },
+    lastName: { type: String, default: "" },
     password: yup.string(),
-    posts: [{ type: Schema.Types.ObjectId, ref: "Post" }],
-    followers: [{ type: Schema.Types.ObjectId, ref: "User" }],
-    following: [{ type: Schema.Types.ObjectId, ref: "User" }],
+    posts: [{ type: Schema.Types.ObjectId, ref: "Post", unique: true }],
+    followers: [{ type: Schema.Types.ObjectId, ref: "User", unique: true }],
+    following: [{ type: Schema.Types.ObjectId, ref: "User", unique: true }],
     email: yup.string().email(),
   },
   { timestamps: true }
