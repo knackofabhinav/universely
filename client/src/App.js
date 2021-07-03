@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 // import { Counter } from "./features/counter/Counter";
 import { Routes, Route } from "react-router-dom";
 import "./App.css";
@@ -10,11 +10,26 @@ import { Grid, GridItem, Flex } from "@chakra-ui/react";
 import { RightBar } from "./components/rightBar/RightBar";
 import { Following } from "./pages/following/Following";
 import { Notifications } from "./pages/notifications/Notifications";
+import { Login } from "./pages/login/Login";
+import { Signup } from "./pages/signup/Signup";
 import { useSelector } from "react-redux";
+import { API } from "./utils/api";
 
 function App() {
   const posts = useSelector((state) => state.posts);
-  console.log(posts);
+  // console.log(posts);
+
+  // useEffect(() => {
+  //   (async () => {
+  //     try {
+  //       const res = await API.get("/users/60d838216a437b48441b2516");
+  //       console.log(res);
+  //     } catch (err) {
+  //       console.log(err);
+  //     }
+  //   })();
+  // }, []);
+
   return (
     <div className="App">
       <Navigation />
@@ -28,6 +43,8 @@ function App() {
         </GridItem>
         <GridItem>
           <Routes>
+            <Route path="/login" element={<Login />} />
+            <Route path="/signup" element={<Signup />} />
             <Route exact path="/" element={<Homepage />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="/following" element={<Following />} />
@@ -42,6 +59,8 @@ function App() {
       {/* Mobile View */}
       <Flex display={["flex", "flex", "none", "none"]}>
         <Routes>
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<Signup />} />
           <Route exact path="/" element={<Homepage />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/following" element={<Following />} />

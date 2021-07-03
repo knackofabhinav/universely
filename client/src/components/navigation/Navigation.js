@@ -92,6 +92,30 @@ export const Navigation = () => {
               Notifications
             </Button>
           </Link>
+          <Link to="/login">
+            <Button
+              as="a"
+              cursor="pointer"
+              variant="ghost"
+              aria-label="Login"
+              my={5}
+              w="100%"
+            >
+              Login
+            </Button>
+          </Link>
+          <Link to="/signup">
+            <Button
+              as="a"
+              cursor="pointer"
+              variant="ghost"
+              aria-label="Signup"
+              my={5}
+              w="100%"
+            >
+              Signup
+            </Button>
+          </Link>
         </Flex>
 
         {/* Mobile */}
@@ -158,6 +182,30 @@ export const Navigation = () => {
               w="100%"
             >
               Following
+            </Button>
+          </Link>
+          <Link to="/login">
+            <Button
+              cursor="pointer"
+              as="a"
+              variant="ghost"
+              aria-label="Login"
+              my={5}
+              w="100%"
+            >
+              Login
+            </Button>
+          </Link>
+          <Link to="/signup">
+            <Button
+              cursor="pointer"
+              as="a"
+              variant="ghost"
+              aria-label="Signup"
+              my={5}
+              w="100%"
+            >
+              Signup
             </Button>
           </Link>
           <Link to="/profile">
