@@ -12,15 +12,20 @@ import { HamburgerIcon, CloseIcon } from "@chakra-ui/icons";
 import LogoBlack from "../../assets/logo-black.png";
 import LogoWhite from "../../assets/logo-white.png";
 import { Link } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { logout } from "../../features/userAuth/authSlice";
 
 export const Navigation = () => {
   const { colorMode, toggleColorMode } = useColorMode();
   const isDark = colorMode === "dark";
   const [display, changeDisplay] = useState("none");
+  const dispatch = useDispatch();
+  const { isLoggedIn } = useSelector((state) => state.auth);
+  const { username } = isLoggedIn && JSON.parse(localStorage.getItem("user"));
 
   return (
-    <Flex>
-      <Box h="5rem"></Box>
+    <Flex h="5rem">
+      {/* DESKTOP  VIEW*/}
       <Flex
         position="fixed"
         zIndex="100"
@@ -28,6 +33,7 @@ export const Navigation = () => {
         w="100vw"
         justify="space-between"
         align="center"
+        display={["none", "none", "flex", "flex"]}
       >
         <Link to="/">
           <Box
@@ -36,106 +42,165 @@ export const Navigation = () => {
             ml="1rem"
             justify="center"
             align="center"
-            display={display === "flex" ? "none" : "flex"}
+            display="flex"
           >
             <Image src={isDark ? LogoWhite : LogoBlack} />
           </Box>
         </Link>
-        {/* Desktop */}
-        <Flex display={["none", "none", "flex", "flex"]}>
-          <Link to="/">
+        {isLoggedIn && (
+          <Flex>
+            <Link to="/">
+              <Button
+                cursor="pointer"
+                variant="ghost"
+                aria-label="Home"
+                my={5}
+                w="100%"
+              >
+                Home
+              </Button>
+            </Link>
+            <Link to="/following">
+              <Button
+                cursor="pointer"
+                variant="ghost"
+                aria-label="Following"
+                my={5}
+                w="100%"
+              >
+                Following
+              </Button>
+            </Link>
+            <Link to={`profile/${username}`}>
+              <Button
+                cursor="pointer"
+                variant="ghost"
+                aria-label="Profile"
+                my={5}
+                w="100%"
+              >
+                Profile
+              </Button>
+            </Link>
+            <Link to="/notifications">
+              <Button
+                cursor="pointer"
+                variant="ghost"
+                aria-label="Notifications"
+                my={5}
+                px={5}
+                w="100%"
+              >
+                Notifications
+              </Button>
+            </Link>
+          </Flex>
+        )}
+        <Flex>
+          {isLoggedIn ? (
             <Button
-              as="a"
               cursor="pointer"
               variant="ghost"
-              aria-label="Home"
+              aria-label="Logout"
               my={5}
-              w="100%"
+              onClick={() => {
+                dispatch(logout());
+              }}
             >
-              Home
+              Logout
             </Button>
-          </Link>
-          <Link to="/following">
-            <Button
-              as="a"
-              cursor="pointer"
-              variant="ghost"
-              aria-label="Following"
-              my={5}
-              w="100%"
-            >
-              Following
-            </Button>
-          </Link>
-          <Link to="/profile">
-            <Button
-              as="a"
-              cursor="pointer"
-              variant="ghost"
-              aria-label="Profile"
-              my={5}
-              w="100%"
-            >
-              Profile
-            </Button>
-          </Link>
-          <Link to="/notifications">
-            <Button
-              as="a"
-              cursor="pointer"
-              variant="ghost"
-              aria-label="Notifications"
-              my={5}
-              px={5}
-              w="100%"
-            >
-              Notifications
-            </Button>
-          </Link>
-          <Link to="/login">
-            <Button
-              as="a"
-              cursor="pointer"
-              variant="ghost"
-              aria-label="Login"
-              my={5}
-              w="100%"
-            >
-              Login
-            </Button>
-          </Link>
-          <Link to="/signup">
-            <Button
-              as="a"
-              cursor="pointer"
-              variant="ghost"
-              aria-label="Signup"
-              my={5}
-              w="100%"
-            >
-              Signup
-            </Button>
-          </Link>
-        </Flex>
-
-        {/* Mobile */}
-        <Flex
-          align="center"
-          mr="2rem"
-          display={display === "flex" ? "none" : "flex"}
-        >
-          <IconButton
-            aria-label="Open Menu"
-            size="lg"
-            mr={2}
-            icon={<HamburgerIcon />}
-            onClick={() => changeDisplay("flex")}
-            display={["flex", "flex", "none", "none"]}
-          />
-          <Switch m="1rem" isChecked={isDark} onChange={toggleColorMode} />
+          ) : (
+            <Flex>
+              <Link to="/login">
+                <Button
+                  cursor="pointer"
+                  variant="ghost"
+                  aria-label="Login"
+                  my={5}
+                  w="100%"
+                >
+                  Login
+                </Button>
+              </Link>
+              <Link to="/signup">
+                <Button
+                  cursor="pointer"
+                  variant="ghost"
+                  aria-label="Signup"
+                  my={5}
+                  w="100%"
+                >
+                  Signup
+                </Button>
+              </Link>{" "}
+            </Flex>
+          )}
+          <Switch m="2rem" isChecked={isDark} onChange={toggleColorMode} />
         </Flex>
       </Flex>
-      {/* Mobile Content */}
+
+      {/* MOBILE VIEW*/}
+      <Flex
+        position="fixed"
+        zIndex="10"
+        bg={isDark ? "blackAlpha.900" : "whiteAlpha.900"}
+        w="100vw"
+        justify="space-between"
+        align="center"
+        display={["flex", "flex", "none", "none"]}
+      >
+        <Link to="/">
+          <Box
+            w="10rem"
+            h="5rem"
+            ml="1rem"
+            justify="center"
+            align="center"
+            display="flex"
+          >
+            <Image src={isDark ? LogoWhite : LogoBlack} />
+          </Box>
+        </Link>
+        {isLoggedIn ? (
+          <Flex>
+            <IconButton
+              aria-label="Open Menu"
+              size="lg"
+              mr={2}
+              icon={<HamburgerIcon />}
+              onClick={() => changeDisplay("flex")}
+              display={["flex", "flex", "none", "none"]}
+            />
+            <Switch m="1rem" isChecked={isDark} onChange={toggleColorMode} />
+          </Flex>
+        ) : (
+          <Flex justifyContent="flex-end" alignItems="center">
+            <Link to="/login">
+              <Button
+                cursor="pointer"
+                variant="ghost"
+                aria-label="Login"
+                my={5}
+                w="100%"
+              >
+                Login
+              </Button>
+            </Link>
+            <Link to="/signup">
+              <Button
+                cursor="pointer"
+                variant="ghost"
+                aria-label="Signup"
+                my={5}
+                w="100%"
+              >
+                Signup
+              </Button>
+            </Link>
+            <Switch m="1rem" isChecked={isDark} onChange={toggleColorMode} />
+          </Flex>
+        )}
+      </Flex>
       <Flex
         w="100vw"
         display={display}
@@ -163,11 +228,11 @@ export const Navigation = () => {
           <Link to="/">
             <Button
               cursor="pointer"
-              as="a"
               variant="ghost"
               aria-label="Home"
               my={5}
               w="100%"
+              onClick={() => changeDisplay("none")}
             >
               Home
             </Button>
@@ -175,47 +240,51 @@ export const Navigation = () => {
           <Link to="/following">
             <Button
               cursor="pointer"
-              as="a"
               variant="ghost"
               aria-label="Following"
               my={5}
               w="100%"
+              onClick={() => changeDisplay("none")}
             >
               Following
             </Button>
           </Link>
-          <Link to="/login">
+          {!isLoggedIn && (
+            <Link to="/login">
+              <Button
+                cursor="pointer"
+                variant="ghost"
+                aria-label="Login"
+                my={5}
+                w="100%"
+                onClick={() => changeDisplay("none")}
+              >
+                Login
+              </Button>
+            </Link>
+          )}
+          {!isLoggedIn && (
+            <Link to="/signup">
+              <Button
+                cursor="pointer"
+                variant="ghost"
+                aria-label="Signup"
+                my={5}
+                w="100%"
+                onClick={() => changeDisplay("none")}
+              >
+                Signup
+              </Button>
+            </Link>
+          )}
+          <Link to={`/profile/${username}`}>
             <Button
               cursor="pointer"
-              as="a"
-              variant="ghost"
-              aria-label="Login"
-              my={5}
-              w="100%"
-            >
-              Login
-            </Button>
-          </Link>
-          <Link to="/signup">
-            <Button
-              cursor="pointer"
-              as="a"
-              variant="ghost"
-              aria-label="Signup"
-              my={5}
-              w="100%"
-            >
-              Signup
-            </Button>
-          </Link>
-          <Link to="/profile">
-            <Button
-              cursor="pointer"
-              as="a"
               variant="ghost"
               aria-label="Profile"
               my={5}
               w="100%"
+              onClick={() => changeDisplay("none")}
             >
               Profile
             </Button>
@@ -223,15 +292,29 @@ export const Navigation = () => {
           <Link to="/notifications">
             <Button
               cursor="pointer"
-              as="a"
               variant="ghost"
               aria-label="Notifications"
               my={5}
               w="100%"
+              onClick={() => changeDisplay("none")}
             >
               Notifications
             </Button>
           </Link>
+          {isLoggedIn && (
+            <Button
+              cursor="pointer"
+              variant="ghost"
+              aria-label="Logout"
+              my={5}
+              onClick={() => {
+                dispatch(logout());
+                changeDisplay("none");
+              }}
+            >
+              Logout
+            </Button>
+          )}
         </Flex>
       </Flex>
     </Flex>

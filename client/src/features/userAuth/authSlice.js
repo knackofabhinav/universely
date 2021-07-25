@@ -1,18 +1,21 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { API } from "../../utils/api";
 
-const authTokenFromLocalStorage = localStorage.getItem("authToken");
-
 const initialState = {
   status: null,
-  isLoginedIn: false,
-  authToken: authTokenFromLocalStorage || null,
+  isLoggedIn: !!localStorage.getItem("authToken") ? true : false,
+  authToken: !!localStorage.getItem("authToken")
+    ? localStorage.getItem("authToken")
+    : null,
+  userId: null,
 };
 
 export const login = createAsyncThunk("auth/login", async (credentials) => {
   try {
     const response = await API.post("/login", credentials);
-    localStorage.setItem("authToken", response.data?.accessToken);
+    console.log(response);
+    localStorage.setItem("authToken", JSON.stringify(response.data?.authToken));
+    localStorage.setItem("user", JSON.stringify(response.data?.user));
     return response;
   } catch (err) {
     console.log(err);
@@ -32,9 +35,19 @@ export const signup = createAsyncThunk("auth/signup", async (credentials) => {
 export const authSlice = createSlice({
   name: "auth",
   initialState,
-  reducers: {},
+  reducers: {
+    logout: (state, action) => {
+      localStorage.removeItem("authToken");
+      state.isLoggedIn = false;
+    },
+  },
   extraReducers: (builder) => {
     builder
+      .addCase(login.fulfilled, (state, action) => {
+        state.status = "fulfilled";
+        state.isLoggedIn = true;
+        state.authToken = action.payload.data.accessToken;
+      })
       .addCase(login.pending, (state) => {
         state.status = "loading";
       })
@@ -43,12 +56,6 @@ export const authSlice = createSlice({
         if (action.payload?.data.status === 401) {
           state.status = "authentication error";
         }
-      })
-      .addCase(login.fulfilled, (state, action) => {
-        state.status = "fulfilled";
-        state.isLoginedIn = true;
-        console.log(action);
-        state.authToken = action.payload?.data.accessToken;
       })
       .addCase(signup.pending, (state) => {
         state.status = "loading";
@@ -61,12 +68,13 @@ export const authSlice = createSlice({
       })
       .addCase(signup.fulfilled, (state, action) => {
         state.status = "fulfilled";
-        state.isLoginedIn = true;
+        state.isLoggedIn = true;
         state.authToken = action.payload?.data.accessToken;
+        state.userId = action.payload?.data.user._id;
       });
   },
 });
 
-export const authState = (state) => state.auth;
+export const { logout } = authSlice.actions;
 
 export default authSlice.reducer;

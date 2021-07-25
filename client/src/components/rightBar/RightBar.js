@@ -19,7 +19,7 @@ export const RightBar = () => {
           username={"tanaypratap"}
           following={true}
           image={
-            "https://pbs.twimg.com/profile_images/1238749114348662784/p9hc5fuP_400x400.jpg"
+            "https://pbs.twimg.com/profile_images/1407601239727112198/V4bunpAi_400x400.jpg"
           }
         />
         <ProfileCard

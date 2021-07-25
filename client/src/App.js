@@ -1,7 +1,6 @@
-import React, { useEffect } from "react";
-// import { Counter } from "./features/counter/Counter";
+import React from "react";
+import { useSelector } from "react-redux";
 import { Routes, Route } from "react-router-dom";
-import "./App.css";
 import { Navigation } from "./components/navigation/Navigation";
 import { Homepage } from "./pages/home/Homepage";
 import { Profile } from "./pages/profile/Profile";
@@ -12,59 +11,58 @@ import { Following } from "./pages/following/Following";
 import { Notifications } from "./pages/notifications/Notifications";
 import { Login } from "./pages/login/Login";
 import { Signup } from "./pages/signup/Signup";
-import { useSelector } from "react-redux";
-import { API } from "./utils/api";
+import PrivateRoute from "./features/userAuth/PrivateRoute.js";
 
 function App() {
-  const posts = useSelector((state) => state.posts);
-  // console.log(posts);
-
-  // useEffect(() => {
-  //   (async () => {
-  //     try {
-  //       const res = await API.get("/users/60d838216a437b48441b2516");
-  //       console.log(res);
-  //     } catch (err) {
-  //       console.log(err);
-  //     }
-  //   })();
-  // }, []);
+  const { isLoggedIn } = useSelector((state) => state.auth);
 
   return (
     <div className="App">
       <Navigation />
-      <Grid
-        templateColumns="repeat(3, 1fr)"
-        display={["none", "none", "flex", "flex"]}
-      >
-        {/* <Counter /> */}
-        <GridItem>
-          <SideBar />
-        </GridItem>
-        <GridItem>
+      {isLoggedIn ? (
+        <Grid
+          templateColumns="repeat(3, 1fr)"
+          display={["none", "none", "flex", "flex"]}
+        >
+          <GridItem>
+            <SideBar />
+          </GridItem>
+          <GridItem>
+            <Routes>
+              <Route path="/login" element={<Login />} />
+              <Route path="/signup" element={<Signup />} />
+              <PrivateRoute exact path="/" element={<Homepage />} />
+              <PrivateRoute path="/profile/:username" element={<Profile />} />
+              <PrivateRoute path="/following" element={<Following />} />
+              <PrivateRoute path="/notifications" element={<Notifications />} />
+            </Routes>
+          </GridItem>
+          <GridItem>
+            <RightBar />
+          </GridItem>
+        </Grid>
+      ) : (
+        <Flex justify="center" display={["none", "none", "flex", "flex"]}>
           <Routes>
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
-            <Route exact path="/" element={<Homepage />} />
-            <Route path="/profile" element={<Profile />} />
-            <Route path="/following" element={<Following />} />
-            <Route path="/notifications" element={<Notifications />} />
+            <PrivateRoute exact path="/" element={<Homepage />} />
+            <PrivateRoute path="/profile/:username" element={<Profile />} />
+            <PrivateRoute path="/following" element={<Following />} />
+            <PrivateRoute path="/notifications" element={<Notifications />} />
           </Routes>
-        </GridItem>
-        <GridItem>
-          <RightBar />
-        </GridItem>
-      </Grid>
+        </Flex>
+      )}
 
       {/* Mobile View */}
       <Flex display={["flex", "flex", "none", "none"]}>
         <Routes>
-          <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<Signup />} />
-          <Route exact path="/" element={<Homepage />} />
-          <Route path="/profile" element={<Profile />} />
-          <Route path="/following" element={<Following />} />
-          <Route path="/notifications" element={<Notifications />} />
+          <PrivateRoute path="/profile/:username" element={<Profile />} />
+          {!isLoggedIn && <Route path="/login" element={<Login />} />}
+          {!isLoggedIn && <Route path="/signup" element={<Signup />} />}
+          <PrivateRoute path="/" element={<Homepage />} />
+          <PrivateRoute path="/following" element={<Following />} />
+          <PrivateRoute path="/notifications" element={<Notifications />} />
         </Routes>
       </Flex>
     </div>

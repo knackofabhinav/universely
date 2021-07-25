@@ -1,10 +1,15 @@
 import { Flex, Button, Stack } from "@chakra-ui/react";
 import { useColorMode } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 export const SideBar = () => {
   const { colorMode } = useColorMode();
   const isDark = colorMode === "dark";
+  const { isLoggedIn } = useSelector((state) => state.auth);
+
+  const { username } = isLoggedIn && JSON.parse(localStorage.getItem("user"));
+
   return (
     <Flex width="25rem" h="95vh" display={["none", "none", "flex", "flex"]}>
       <Flex
@@ -39,17 +44,12 @@ export const SideBar = () => {
               Notifications
             </Button>
           </Link>
-          <Link to="/profile">
+          <Link to={`/profile/${username}`}>
             <Button size="lg" colorScheme="blue" variant="ghost">
               Profile
             </Button>
           </Link>
         </Stack>
-        <Link to="/about">
-          <Button size="md" mb="2rem" colorScheme="blue" variant="ghost">
-            About us
-          </Button>
-        </Link>
       </Flex>
     </Flex>
   );

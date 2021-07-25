@@ -1,4 +1,4 @@
-import { Flex, Stack, Box } from "@chakra-ui/react";
+import { Flex, Stack } from "@chakra-ui/react";
 import { Notification } from "../../components/notification/Notification";
 
 export const Notifications = () => {

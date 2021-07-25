@@ -1,9 +1,18 @@
 import { Flex, Box, Button, Image, Text } from "@chakra-ui/react";
 import { useColorMode } from "@chakra-ui/react";
+import { profileState } from "../../features/profile/profileSlice";
+import { useSelector } from "react-redux";
 
-export const Feed = ({ myPost }) => {
+export const Feed = ({ post }) => {
+  const profile = useSelector(profileState);
   const { colorMode } = useColorMode();
   const isDark = colorMode === "dark";
+
+  const formatDate = (dateString) => {
+    const options = { year: "numeric", month: "long", day: "numeric" };
+    return new Date(dateString).toLocaleDateString(undefined, options);
+  };
+
   return (
     <Box
       w="90%"
@@ -30,17 +39,17 @@ export const Feed = ({ myPost }) => {
               fontWeight="bold"
               fontSize="large"
             >
-              Abhinav Patel
+              {profile.firstName + " " + profile.lastName}
             </Text>
             <Text mx="0.3rem" color="GrayText">
-              @KnackOfAbhinav
+              @{profile.username}
             </Text>
           </Flex>
         </Flex>
         <Flex>
           <Text m="1rem" color="GrayText">
             {" "}
-            June 25 2021
+            {formatDate(post?.createdAt)}
           </Text>
         </Flex>
       </Flex>
@@ -51,9 +60,7 @@ export const Feed = ({ myPost }) => {
           pb="1rem"
           color={isDark ? "whiteAlpha" : "blackAlpha"}
         >
-          “In the sky there are always answers and explanations for everything:
-          every pain, every suffering, joy and confusion.” ― Ishmael Beah, A
-          Long Way Gone: Memoirs of a Boy Soldier
+          {post && post?.caption}
         </Text>
       </Flex>
       <Flex
@@ -64,7 +71,7 @@ export const Feed = ({ myPost }) => {
       >
         <Button>Upvote</Button>
         <Button>Comment</Button>
-        {myPost && <Button>Delete</Button>}
+        {/* {myPost && <Button>Delete</Button>} */}
       </Flex>
     </Box>
   );

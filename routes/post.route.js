@@ -6,15 +6,15 @@ const router = Router();
 
 router.route("/").post(async (req, res) => {
   try {
-    const user = await User.findById(req.body.userId);
+    const user = await User.findById(req.userId);
     const post = new Post({
-      author: req.body.userId,
+      author: req.userId,
       caption: req.body.caption,
     });
     const savedPost = await post.save();
     user.posts.push(savedPost._id);
     await user.save();
-    const populatedUser = await User.findById(req.body.userId).populate({
+    const populatedUser = await User.findById(req.userId).populate({
       path: "posts",
     });
     res.json({ success: true, posts: populatedUser.posts });
