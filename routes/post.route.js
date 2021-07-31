@@ -4,7 +4,7 @@ const { User } = require("../models/user.model");
 const { Comment } = require("../models/comment.model");
 const router = Router();
 
-router.route("/").post(async (req, res) => {
+router.route("/create").post(async (req, res) => {
   try {
     const user = await User.findById(req.userId);
     const post = new Post({
@@ -14,10 +14,12 @@ router.route("/").post(async (req, res) => {
     const savedPost = await post.save();
     user.posts.push(savedPost._id);
     await user.save();
-    const populatedUser = await User.findById(req.userId).populate({
-      path: "posts",
-    });
-    res.json({ success: true, posts: populatedUser.posts });
+    // const populatedUser = await User.findById(req.userId).populate({
+    //   path: "posts",
+    // });
+    const newPost = await Post.findById(post.id).populate("author");
+    console.log(newPost);
+    res.json({ success: true, post });
   } catch (e) {
     console.log(e);
     res.json({ success: false, errMessage: e });

@@ -1,9 +1,15 @@
 import { Button, Image, Textarea, Box, Flex } from "@chakra-ui/react";
 import { useColorMode } from "@chakra-ui/react";
+import { createNewPost } from "../../features/post/postSlice";
+import { useDispatch } from "react-redux";
+import { useState } from "react";
 
 export const NewPost = () => {
   const { colorMode } = useColorMode();
+  const [post, setPost] = useState({ caption: "" });
   const isDark = colorMode === "dark";
+  const dispatch = useDispatch();
+
   return (
     <Box
       w="90%"
@@ -30,10 +36,11 @@ export const NewPost = () => {
           m="1rem"
           fontSize="xl"
           resize="none"
+          onChange={(e) => setPost({ caption: e.target.value })}
         />
       </Flex>
       <Flex justify="flex-end" pr="1rem" align="center" w="100%" h="3rem">
-        <Button>Post</Button>
+        <Button onClick={() => dispatch(createNewPost(post))}>Post</Button>
       </Flex>
     </Box>
   );
