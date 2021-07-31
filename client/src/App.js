@@ -19,6 +19,7 @@ function App() {
   return (
     <div className="App">
       <Navigation />
+      {/* DESKTOP VIEW */}
       {isLoggedIn ? (
         <Grid
           templateColumns="repeat(3, 1fr)"
