@@ -13,7 +13,6 @@ const initialState = {
 export const login = createAsyncThunk("auth/login", async (credentials) => {
   try {
     const response = await API.post("/login", credentials);
-    console.log(response);
     localStorage.setItem("authToken", JSON.stringify(response.data?.authToken));
     localStorage.setItem("user", JSON.stringify(response.data?.user));
     return response;
@@ -25,8 +24,8 @@ export const login = createAsyncThunk("auth/login", async (credentials) => {
 export const signup = createAsyncThunk("auth/signup", async (credentials) => {
   try {
     const response = await API.post("/signup", credentials);
-    console.log(response);
-    return response;
+    localStorage.setItem("authToken", JSON.stringify(response.data?.authToken));
+    localStorage.setItem("user", JSON.stringify(response.data?.savedUser));
   } catch (err) {
     console.log(err);
   }
@@ -70,7 +69,7 @@ export const authSlice = createSlice({
         state.status = "fulfilled";
         state.isLoggedIn = true;
         state.authToken = action.payload?.data.accessToken;
-        state.userId = action.payload?.data.user._id;
+        state.userId = action.payload?.data.savedUser._id;
       });
   },
 });

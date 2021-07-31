@@ -9,12 +9,10 @@ import { Link } from "react-router-dom";
 
 export const Profile = () => {
   const { username } = useParams();
-  console.log(username);
   const dispatch = useDispatch();
   useEffect(() => {
     (async function () {
       const res = await API.get(`${username}`);
-      console.log(res);
       dispatch(setUser(res.data.user));
     })();
   }, [username, dispatch]);
@@ -91,16 +89,20 @@ export const Profile = () => {
             {profile.bio}
           </Text>
           <Flex justifyContent="space-between" w="100%">
-            <Flex direction="column">
-              <Button variant="ghost">{profile.posts.length}</Button>
+            <Flex direction="column" alignItems="center">
+              <Button variant="ghost" disabled>
+                {profile.posts.length}
+              </Button>
               <Text>Posts</Text>
             </Flex>
-            <Flex direction="column">
+            <Flex direction="column" alignItems="center">
               <Button variant="ghost">{profile.followers.length}</Button>
               <Text>Followers</Text>
             </Flex>
-            <Flex direction="column">
-              <Button variant="ghost">{profile.following.length}</Button>
+            <Flex direction="column" alignItems="center">
+              <Link to="/following">
+                <Button variant="ghost">{profile.following.length}</Button>
+              </Link>
               <Text>Following</Text>
             </Flex>
           </Flex>

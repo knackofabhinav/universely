@@ -1,8 +1,10 @@
 import { Flex } from "@chakra-ui/react";
 import { NewPost } from "../../components/newPost/NewPost";
 import { Feed } from "../../components/feed/Feed";
+import { useSelector } from "react-redux";
 
 export const Homepage = () => {
+  const feed = useSelector((state) => state.posts.feed);
   return (
     <>
       {/* Desktop View */}
@@ -25,7 +27,9 @@ export const Homepage = () => {
         width="100%"
       >
         <NewPost />
-        <Feed />
+        {feed.map((post) => (
+          <Feed post={post} />
+        ))}
       </Flex>
     </>
   );

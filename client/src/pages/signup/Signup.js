@@ -1,11 +1,14 @@
 import { useState } from "react";
 import { Flex, Button, Text, Input } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
-import signup from "../../features/userAuth/authSlice";
+import { useNavigate } from "react-router";
+import { signup } from "../../features/userAuth/authSlice";
 import { useDispatch } from "react-redux";
 
 export const Signup = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const [validationError, setValidationError] = useState("");
   const [signupCredentials, setSignupCredentials] = useState({
     username: "",
     password: "",
@@ -14,8 +17,22 @@ export const Signup = () => {
     lastName: "",
   });
 
-  const signupHandler = (signupCredentials) => {
-    dispatch(signup(signupCredentials));
+  const signupHandler = async (signupCredentials) => {
+    if (
+      signupCredentials.username === "" ||
+      signupCredentials.password === "" ||
+      signupCredentials.email === "" ||
+      signupCredentials.firstName === ""
+    ) {
+      setValidationError("*Please enter All the required fields");
+    } else {
+      try {
+        await dispatch(signup(signupCredentials));
+        navigate("/");
+      } catch (e) {
+        console.log(e);
+      }
+    }
   };
 
   return (
@@ -80,6 +97,7 @@ export const Signup = () => {
           />
           <Text m="0.5rem">Email</Text>
           <Input
+            type="email"
             placeholder="johnwick@gmail.com"
             value={signupCredentials.email}
             onChange={(e) =>
@@ -117,8 +135,9 @@ export const Signup = () => {
           Signup
         </Text>
         <Flex direction="column" padding="1rem" width="90%">
-          <Text m="0.5rem">Username</Text>
+          <Text m="0.5rem">Username*</Text>
           <Input
+            required={true}
             placeholder="Type your username"
             value={signupCredentials.username}
             onChange={(e) =>
@@ -128,7 +147,7 @@ export const Signup = () => {
               }))
             }
           />
-          <Text m="0.5rem">Password</Text>
+          <Text m="0.5rem">Password*</Text>
           <Input
             placeholder="Type your password"
             type="password"
@@ -140,7 +159,7 @@ export const Signup = () => {
               }))
             }
           />
-          <Text m="0.5rem">First Name</Text>
+          <Text m="0.5rem">First Name*</Text>
           <Input
             placeholder="John"
             value={signupCredentials.firstName}
@@ -163,8 +182,9 @@ export const Signup = () => {
               }))
             }
           />
-          <Text m="0.5rem">Email</Text>
+          <Text m="0.5rem">Email*</Text>
           <Input
+            type="email"
             placeholder="johnwick@gmail.com"
             value={signupCredentials.email}
             onChange={(e) =>
@@ -174,6 +194,7 @@ export const Signup = () => {
               }))
             }
           />
+          <Text color="#E53E3E">{validationError}</Text>
           <Button
             type="submit"
             onClick={() => signupHandler(signupCredentials)}

@@ -29,9 +29,9 @@ router.post("/signup", async (req, res) => {
       email: req.body.email,
     });
     const savedUser = await user.save();
-    console.log(savedUser);
+    const authToken = jwt.sign(JSON.stringify(user), process.env.TOKEN_SECRET);
     savedUser.password = undefined;
-    res.json(savedUser);
+    res.json({ success: true, authToken, savedUser });
   } catch (e) {
     console.log(e);
     res.json({ success: false, message: "Duplicate or invalid Signup" });

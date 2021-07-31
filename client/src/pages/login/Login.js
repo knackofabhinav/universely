@@ -128,9 +128,8 @@ export const Login = () => {
             <Text m="0.5rem" w="100%">
               Password
             </Text>
-            <Flex>
+            <Flex w="100%">
               <Input
-                w="75vw"
                 onChange={(e) =>
                   setLoginCredentials((loginCredentials) => ({
                     ...loginCredentials,
