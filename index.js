@@ -6,6 +6,7 @@ const auth = require("./middleware/auth");
 const post = require("./routes/post.route");
 const follow = require("./routes/follow.route");
 const upload = require("./routes/upload.route");
+const feed = require("./routes/feed.route");
 const cors = require("cors");
 const PORT = process.env.PORT || 3000;
 app.use(express.json());
@@ -17,10 +18,11 @@ app.use("/", user);
 app.use("/posts", auth, post);
 app.use("/upload", auth, upload);
 app.use("/follow", auth, follow);
+app.use("/feed", auth, feed);
 
 //  404 Route Handler
 app.use((req, res) => {
-  res.status(404).json({ success: false });
+  res.status(404).json({ success: false, message: "Route not found" });
 });
 
 /**
