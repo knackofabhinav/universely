@@ -8,17 +8,15 @@ router.route("/create").post(async (req, res) => {
   try {
     const user = await User.findById(req.userId);
     const post = new Post({
-      author: req.userId,
+      author: user._id,
+      username: user.username,
+      firstName: user.firstName,
+      lastName: user.lastName,
       caption: req.body.caption,
     });
     const savedPost = await post.save();
     user.posts.push(savedPost._id);
     await user.save();
-    // const populatedUser = await User.findById(req.userId).populate({
-    //   path: "posts",
-    // });
-    const newPost = await Post.findById(post.id).populate("author");
-    console.log(newPost);
     res.json({ success: true, post });
   } catch (e) {
     console.log(e);
@@ -26,10 +24,21 @@ router.route("/create").post(async (req, res) => {
   }
 });
 
-router.route("/likes").post(async (req, res) => {
+router.route("/liked").post(async (req, res) => {
   try {
     const { userId, postId } = req.body;
     const post = await Post.findById(postId);
+    const alreadyLiked = post.likes.some((id) => id == userId);
+    if (alreadyLiked) {
+      const updatedLikes = post.likes.filter((id) => id != userId);
+      post.likes = updatedLikes;
+      await post.save();
+      return res.json({
+        success: true,
+        message: "Disliked Successfully",
+        post,
+      });
+    }
     post.likes.push(userId);
     await post.save();
     res.json({ success: true, post });

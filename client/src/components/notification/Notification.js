@@ -16,7 +16,7 @@ export const Notification = () => {
       <Flex align="center" justify="space-between">
         <Flex align="center">
           <Image
-            src="https://pbs.twimg.com/profile_images/1373575950344974336/i_xo1F1l_400x400.jpg"
+            src="https://imgr.search.brave.com/qM72OrPzyG_X5bm1WplYJrgAgshLELxXi2o9OqbcfxQ/fit/980/980/no/1/aHR0cDovL2dldGRy/YXdpbmdzLmNvbS92/ZWN0b3JzL3Byb2Zp/bGUtdmVjdG9yLTIu/cG5n"
             boxSize="50px"
             objectFit="cover"
             borderRadius="full"

@@ -1,15 +1,16 @@
 import { Button, Image, Textarea, Box, Flex } from "@chakra-ui/react";
 import { useColorMode } from "@chakra-ui/react";
 import { createNewPost } from "../../features/post/postSlice";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
+import { profileState } from "../../features/profile/profileSlice";
 
 export const NewPost = () => {
   const { colorMode } = useColorMode();
   const [post, setPost] = useState({ caption: "" });
   const isDark = colorMode === "dark";
   const dispatch = useDispatch();
-
+  const profile = useSelector(profileState);
   return (
     <Box
       w="90%"
@@ -23,7 +24,7 @@ export const NewPost = () => {
     >
       <Flex>
         <Image
-          src="https://pbs.twimg.com/profile_images/1373575950344974336/i_xo1F1l_400x400.jpg"
+          src={`https://avatars.dicebear.com/api/identicon/${profile.username}.svg`}
           boxSize="50px"
           objectFit="cover"
           borderRadius="full"
@@ -33,6 +34,7 @@ export const NewPost = () => {
         <Textarea
           placeholder="What's Happening?"
           border="none"
+          value={post.caption}
           m="1rem"
           fontSize="xl"
           resize="none"
@@ -40,7 +42,14 @@ export const NewPost = () => {
         />
       </Flex>
       <Flex justify="flex-end" pr="1rem" align="center" w="100%" h="3rem">
-        <Button onClick={() => dispatch(createNewPost(post))}>Post</Button>
+        <Button
+          onClick={() => {
+            setPost({ caption: "" });
+            dispatch(createNewPost(post));
+          }}
+        >
+          Post
+        </Button>
       </Flex>
     </Box>
   );

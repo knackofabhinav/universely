@@ -1,10 +1,20 @@
 import { Flex } from "@chakra-ui/react";
 import { NewPost } from "../../components/newPost/NewPost";
 import { Feed } from "../../components/feed/Feed";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { useEffect } from "react";
+import { API } from "../../utils/api";
+import { initialFeed } from "../../features/post/postSlice";
 
 export const Homepage = () => {
+  const dispatch = useDispatch();
   const feed = useSelector((state) => state.posts.feed);
+  useEffect(() => {
+    (async () => {
+      const feed = await API.post("/feed");
+      dispatch(initialFeed(feed));
+    })();
+  }, [dispatch]);
   return (
     <>
       {/* Desktop View */}
@@ -28,7 +38,7 @@ export const Homepage = () => {
       >
         <NewPost />
         {feed.map((post) => (
-          <Feed post={post} />
+          <Feed post={post} key={post?._id} />
         ))}
       </Flex>
     </>

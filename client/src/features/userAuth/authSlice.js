@@ -15,6 +15,7 @@ export const login = createAsyncThunk("auth/login", async (credentials) => {
     const response = await API.post("/login", credentials);
     localStorage.setItem("authToken", JSON.stringify(response.data?.authToken));
     localStorage.setItem("user", JSON.stringify(response.data?.user));
+    // setAuthTokenForAPI(response.data?.authToken);
     return response;
   } catch (err) {
     console.log(err);
@@ -37,6 +38,7 @@ export const authSlice = createSlice({
   reducers: {
     logout: (state, action) => {
       localStorage.removeItem("authToken");
+      localStorage.removeItem("user");
       state.isLoggedIn = false;
     },
   },
@@ -74,6 +76,7 @@ export const authSlice = createSlice({
   },
 });
 
+export const authToken = (state) => state.auth.authToken;
 export const { logout } = authSlice.actions;
 
 export default authSlice.reducer;

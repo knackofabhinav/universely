@@ -12,9 +12,22 @@ import { Notifications } from "./pages/notifications/Notifications";
 import { Login } from "./pages/login/Login";
 import { Signup } from "./pages/signup/Signup";
 import PrivateRoute from "./features/userAuth/PrivateRoute.js";
+import { useEffect } from "react";
+import { API } from "./utils/api";
+import { useDispatch } from "react-redux";
+import { setUser } from "./features/profile/profileSlice";
 
 function App() {
   const { isLoggedIn } = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
+  const { username } = isLoggedIn && JSON.parse(localStorage.getItem("user"));
+
+  useEffect(() => {
+    (async function () {
+      const res = await API.get(`${username}`);
+      dispatch(setUser(res.data.user));
+    })();
+  }, [username, dispatch]);
 
   return (
     <div className="App">
@@ -34,7 +47,10 @@ function App() {
               <Route path="/signup" element={<Signup />} />
               <PrivateRoute exact path="/" element={<Homepage />} />
               <PrivateRoute path="/profile/:username" element={<Profile />} />
-              <PrivateRoute path="/following" element={<Following />} />
+              <PrivateRoute
+                path="/following/:username"
+                element={<Following />}
+              />
               <PrivateRoute path="/notifications" element={<Notifications />} />
             </Routes>
           </GridItem>
@@ -49,7 +65,7 @@ function App() {
             <Route path="/signup" element={<Signup />} />
             <PrivateRoute exact path="/" element={<Homepage />} />
             <PrivateRoute path="/profile/:username" element={<Profile />} />
-            <PrivateRoute path="/following" element={<Following />} />
+            <PrivateRoute path="/following/:username" element={<Following />} />
             <PrivateRoute path="/notifications" element={<Notifications />} />
           </Routes>
         </Flex>
@@ -62,7 +78,7 @@ function App() {
           {!isLoggedIn && <Route path="/login" element={<Login />} />}
           {!isLoggedIn && <Route path="/signup" element={<Signup />} />}
           <PrivateRoute path="/" element={<Homepage />} />
-          <PrivateRoute path="/following" element={<Following />} />
+          <PrivateRoute path="/following/:username" element={<Following />} />
           <PrivateRoute path="/notifications" element={<Notifications />} />
         </Routes>
       </Flex>

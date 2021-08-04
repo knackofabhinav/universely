@@ -237,7 +237,7 @@ export const Navigation = () => {
               Home
             </Button>
           </Link>
-          <Link to="/following">
+          <Link to={`/following/${username}`}>
             <Button
               cursor="pointer"
               variant="ghost"

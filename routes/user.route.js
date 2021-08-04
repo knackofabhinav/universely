@@ -11,8 +11,51 @@ router.route("/:username").get(async (req, res) => {
     );
     console.log(req.params.username);
     console.log(user);
+    user.posts.sort(function (a, b) {
+      return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
+    });
     user.password = undefined;
     res.json({ user });
+  } catch (e) {
+    console.log(e);
+  }
+});
+
+router.route("/:username/following").get(async (req, res) => {
+  try {
+    const { following } = await User.findOne({
+      username: req.params.username,
+    }).populate("following");
+    const followedUsers = following.map((user) => ({
+      _id: user._id,
+      username: user.username,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      followers: user.followers,
+      following: user.following,
+    }));
+
+    res.json({ following: followedUsers });
+  } catch (e) {
+    console.log(e);
+  }
+});
+
+router.route("/:username/followers").get(async (req, res) => {
+  try {
+    const { followers } = await User.findOne({
+      username: req.params.username,
+    }).populate("followers");
+    const followingUser = followers.map((user) => ({
+      _id: user._id,
+      username: user.username,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      followers: user.followers,
+      following: user.following,
+    }));
+
+    res.json({ followers: followingUser });
   } catch (e) {
     console.log(e);
   }

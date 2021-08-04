@@ -10,6 +10,7 @@ import { Link } from "react-router-dom";
 export const Profile = () => {
   const { username } = useParams();
   const dispatch = useDispatch();
+
   useEffect(() => {
     (async function () {
       const res = await API.get(`${username}`);
@@ -34,7 +35,7 @@ export const Profile = () => {
             <Image
               boxSize="100px"
               borderRadius="100%"
-              src="https://pbs.twimg.com/profile_images/1373575950344974336/i_xo1F1l_400x400.jpg"
+              src={`https://avatars.dicebear.com/api/identicon/${profile?.username}.svg`}
             />
             <Flex margin="1rem" direction="column">
               <Text fontWeight="bold" fontSize="2xl">
@@ -71,7 +72,7 @@ export const Profile = () => {
             <Image
               boxSize="100px"
               borderRadius="100%"
-              src="https://pbs.twimg.com/profile_images/1373575950344974336/i_xo1F1l_400x400.jpg"
+              src={`https://avatars.dicebear.com/api/identicon/${profile?.username}.svg`}
             />
             <Flex margin="1rem" direction="column" align="center">
               <Text fontWeight="bold" fontSize="2xl">
@@ -90,9 +91,7 @@ export const Profile = () => {
           </Text>
           <Flex justifyContent="space-between" w="100%">
             <Flex direction="column" alignItems="center">
-              <Button variant="ghost" disabled>
-                {profile.posts.length}
-              </Button>
+              <Button variant="ghost">{profile.posts.length}</Button>
               <Text>Posts</Text>
             </Flex>
             <Flex direction="column" alignItems="center">
@@ -100,7 +99,7 @@ export const Profile = () => {
               <Text>Followers</Text>
             </Flex>
             <Flex direction="column" alignItems="center">
-              <Link to="/following">
+              <Link to={`/following/${profile.username}`}>
                 <Button variant="ghost">{profile.following.length}</Button>
               </Link>
               <Text>Following</Text>
@@ -110,7 +109,7 @@ export const Profile = () => {
 
         <Flex direction="column" align="center">
           {profile.posts.length !== 0 ? (
-            profile.posts.map((post) => <Feed post={post} />)
+            profile.posts.map((post) => <Feed key={post._id} post={post} />)
           ) : (
             <Flex flexDirection="column">
               <Text fontWeight="bold" borderTop="1px solid black">
