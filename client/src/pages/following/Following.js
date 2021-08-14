@@ -1,4 +1,4 @@
-import { Flex, Text } from "@chakra-ui/react";
+import { Flex, Text, Button } from "@chakra-ui/react";
 import { ProfileCard } from "../../components/ProfileCard/ProfileCard";
 import { useParams } from "react-router";
 import { useEffect } from "react";
@@ -6,8 +6,9 @@ import {
   setFollowingUsers,
   profileState,
 } from "../../features/profile/profileSlice";
-import { API } from "../../utils/api";
 import { useDispatch, useSelector } from "react-redux";
+import axios from "axios";
+import { Link } from "react-router-dom";
 
 export const Following = () => {
   const { username } = useParams();
@@ -16,8 +17,7 @@ export const Following = () => {
 
   useEffect(() => {
     (async () => {
-      const res = await API.get(`/${username}/following`);
-      console.log(res);
+      const res = await axios.get(`/${username}/following`);
       dispatch(setFollowingUsers(res.data.following));
     })();
   }, [dispatch, username]);
@@ -67,7 +67,14 @@ export const Following = () => {
             />
           ))
         ) : (
-          <div>Hello</div>
+          <Flex direction="column" align="center">
+            <Text fontSize="xl" fontWeight="bold" mt={2}>
+              You aren't following anyone yet. ☹️
+            </Text>
+            <Link to={`/explore`}>
+              <Button mt={3}>Go to Explore</Button>
+            </Link>
+          </Flex>
         )}
       </Flex>
     </>

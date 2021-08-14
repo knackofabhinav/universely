@@ -12,6 +12,7 @@ const userSchema = new Schema(
     followers: [{ type: Schema.Types.ObjectId, ref: "User" }],
     following: [{ type: Schema.Types.ObjectId, ref: "User" }],
     email: yup.string().email(),
+    notifications: [{ type: Schema.Types.ObjectId, ref: "Notification" }],
   },
   { timestamps: true }
 );

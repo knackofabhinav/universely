@@ -1,6 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { API } from "../../utils/api";
-
+import axios from "axios";
 const initialState = {
   status: null,
   isLoggedIn: !!localStorage.getItem("authToken") ? true : false,
@@ -12,10 +11,10 @@ const initialState = {
 
 export const login = createAsyncThunk("auth/login", async (credentials) => {
   try {
-    const response = await API.post("/login", credentials);
+    const response = await axios.post("/login", credentials);
     localStorage.setItem("authToken", JSON.stringify(response.data?.authToken));
     localStorage.setItem("user", JSON.stringify(response.data?.user));
-    // setAuthTokenForAPI(response.data?.authToken);
+    axios.defaults.headers.common["Authorization"] = response.data.authToken;
     return response;
   } catch (err) {
     console.log(err);
@@ -24,7 +23,7 @@ export const login = createAsyncThunk("auth/login", async (credentials) => {
 
 export const signup = createAsyncThunk("auth/signup", async (credentials) => {
   try {
-    const response = await API.post("/signup", credentials);
+    const response = await axios.post("/signup", credentials);
     localStorage.setItem("authToken", JSON.stringify(response.data?.authToken));
     localStorage.setItem("user", JSON.stringify(response.data?.savedUser));
   } catch (err) {

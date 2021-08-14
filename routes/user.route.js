@@ -4,23 +4,6 @@ const jwt = require("jsonwebtoken");
 const router = Router();
 const { User } = require("../models/user.model");
 
-router.route("/:username").get(async (req, res) => {
-  try {
-    const user = await User.findOne({ username: req.params.username }).populate(
-      "posts"
-    );
-    console.log(req.params.username);
-    console.log(user);
-    user.posts.sort(function (a, b) {
-      return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
-    });
-    user.password = undefined;
-    res.json({ user });
-  } catch (e) {
-    console.log(e);
-  }
-});
-
 router.route("/:username/following").get(async (req, res) => {
   try {
     const { following } = await User.findOne({
@@ -37,7 +20,7 @@ router.route("/:username/following").get(async (req, res) => {
 
     res.json({ following: followedUsers });
   } catch (e) {
-    console.log(e);
+    // console.log(e);
   }
 });
 
@@ -57,7 +40,7 @@ router.route("/:username/followers").get(async (req, res) => {
 
     res.json({ followers: followingUser });
   } catch (e) {
-    console.log(e);
+    // console.log(e);
   }
 });
 
@@ -76,8 +59,38 @@ router.post("/signup", async (req, res) => {
     savedUser.password = undefined;
     res.json({ success: true, authToken, savedUser });
   } catch (e) {
-    console.log(e);
+    // console.log(e);
     res.json({ success: false, message: "Duplicate or invalid Signup" });
+  }
+});
+
+router.route("/update-profile").post(async (req, res) => {
+  const { userDetails, userId } = req.body;
+  try {
+    const user = await User.findById(userId).populate({
+      path: "posts",
+      populate: { path: "comments" },
+    });
+    user.firstName = userDetails?.firstName;
+    user.lastName = userDetails?.lastName;
+    user.email = userDetails?.email;
+    user.bio = userDetails?.bio;
+    await user.save();
+    user.password = undefined;
+    res.json({ success: true, user });
+  } catch (e) {
+    // console.log(e);
+  }
+});
+
+router.route("/explore").get(async (req, res) => {
+  const userId = req.userId;
+  try {
+    const users = await User.find({});
+    const updated = users.filter((user) => user._id != userId);
+    res.json({ success: true, users: updated });
+  } catch (e) {
+    // console.log(e);
   }
 });
 
@@ -96,7 +109,25 @@ router.route("/login").post(async (req, res) => {
       res.json({ message: "Invalid Credentials" });
     }
   } catch (e) {
-    console.log(e);
+    // console.log(e);
+  }
+});
+
+router.route("/:username").get(async (req, res) => {
+  try {
+    const user = await User.findOne({ username: req.params.username }).populate(
+      {
+        path: "posts",
+        populate: { path: "comments", path: "author" },
+      }
+    );
+    user?.posts?.sort(function (a, b) {
+      return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
+    });
+    user.password = undefined;
+    res.json({ user });
+  } catch (e) {
+    // console.log(e);
   }
 });
 

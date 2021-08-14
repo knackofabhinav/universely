@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { useNavigate } from "react-router";
 import { signup } from "../../features/userAuth/authSlice";
 import { useDispatch } from "react-redux";
+import axios from "axios";
 
 export const Signup = () => {
   const dispatch = useDispatch();
@@ -29,8 +30,8 @@ export const Signup = () => {
       try {
         await dispatch(signup(signupCredentials));
         navigate("/");
-      } catch (e) {
-        console.log(e);
+      } catch (err) {
+        console.log(err);
       }
     }
   };

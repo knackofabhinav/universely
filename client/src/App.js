@@ -13,18 +13,23 @@ import { Login } from "./pages/login/Login";
 import { Signup } from "./pages/signup/Signup";
 import PrivateRoute from "./features/userAuth/PrivateRoute.js";
 import { useEffect } from "react";
-import { API } from "./utils/api";
 import { useDispatch } from "react-redux";
 import { setUser } from "./features/profile/profileSlice";
+import axios from "axios";
+import { setInitialAPI } from "./utils/api";
+import { Explore } from "./pages/explore/Explore";
+import { Followers } from "./pages/followers/Followers";
 
 function App() {
+  setInitialAPI();
   const { isLoggedIn } = useSelector((state) => state.auth);
+  // const isLoggedIn = localStorage.getItem("authToken") ? true : false;
   const dispatch = useDispatch();
   const { username } = isLoggedIn && JSON.parse(localStorage.getItem("user"));
 
   useEffect(() => {
     (async function () {
-      const res = await API.get(`${username}`);
+      const res = await axios.get(`${username}`);
       dispatch(setUser(res.data.user));
     })();
   }, [username, dispatch]);
@@ -66,7 +71,9 @@ function App() {
             <PrivateRoute exact path="/" element={<Homepage />} />
             <PrivateRoute path="/profile/:username" element={<Profile />} />
             <PrivateRoute path="/following/:username" element={<Following />} />
+            <PrivateRoute path="/followers/:username" element={<Followers />} />
             <PrivateRoute path="/notifications" element={<Notifications />} />
+            <PrivateRoute path="/explore" element={<Explore />} />
           </Routes>
         </Flex>
       )}
@@ -79,7 +86,9 @@ function App() {
           {!isLoggedIn && <Route path="/signup" element={<Signup />} />}
           <PrivateRoute path="/" element={<Homepage />} />
           <PrivateRoute path="/following/:username" element={<Following />} />
+          <PrivateRoute path="/followers/:username" element={<Followers />} />
           <PrivateRoute path="/notifications" element={<Notifications />} />
+          <PrivateRoute path="/explore" element={<Explore />} />
         </Routes>
       </Flex>
     </div>

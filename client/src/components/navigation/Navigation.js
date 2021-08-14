@@ -82,7 +82,7 @@ export const Navigation = () => {
                 Profile
               </Button>
             </Link>
-            <Link to="/notifications">
+            {/* <Link to="/notifications">
               <Button
                 cursor="pointer"
                 variant="ghost"
@@ -93,7 +93,7 @@ export const Navigation = () => {
               >
                 Notifications
               </Button>
-            </Link>
+            </Link> */}
           </Flex>
         )}
         <Flex>
@@ -171,7 +171,12 @@ export const Navigation = () => {
               onClick={() => changeDisplay("flex")}
               display={["flex", "flex", "none", "none"]}
             />
-            <Switch m="1rem" isChecked={isDark} onChange={toggleColorMode} />
+            <Switch
+              m="1rem"
+              isChecked={isDark}
+              onChange={toggleColorMode}
+              pr={2}
+            />
           </Flex>
         ) : (
           <Flex justifyContent="flex-end" alignItems="center">
@@ -237,7 +242,31 @@ export const Navigation = () => {
               Home
             </Button>
           </Link>
-          <Link to={`/following/${username}`}>
+          <Link to="/explore">
+            <Button
+              cursor="pointer"
+              variant="ghost"
+              aria-label="Home"
+              my={5}
+              w="100%"
+              onClick={() => changeDisplay("none")}
+            >
+              Explore
+            </Button>
+          </Link>
+          <Link to={`/profile/${username}`}>
+            <Button
+              cursor="pointer"
+              variant="ghost"
+              aria-label="Profile"
+              my={5}
+              w="100%"
+              onClick={() => changeDisplay("none")}
+            >
+              Profile
+            </Button>
+          </Link>
+          {/* <Link to={`/following/${username}`}>
             <Button
               cursor="pointer"
               variant="ghost"
@@ -249,6 +278,18 @@ export const Navigation = () => {
               Following
             </Button>
           </Link>
+          <Link to={`/followers/${username}`}>
+            <Button
+              cursor="pointer"
+              variant="ghost"
+              aria-label="Following"
+              my={5}
+              w="100%"
+              onClick={() => changeDisplay("none")}
+            >
+              Followers
+            </Button>
+          </Link> */}
           {!isLoggedIn && (
             <Link to="/login">
               <Button
@@ -277,19 +318,8 @@ export const Navigation = () => {
               </Button>
             </Link>
           )}
-          <Link to={`/profile/${username}`}>
-            <Button
-              cursor="pointer"
-              variant="ghost"
-              aria-label="Profile"
-              my={5}
-              w="100%"
-              onClick={() => changeDisplay("none")}
-            >
-              Profile
-            </Button>
-          </Link>
-          <Link to="/notifications">
+
+          {/* <Link to="/notifications">
             <Button
               cursor="pointer"
               variant="ghost"
@@ -300,7 +330,7 @@ export const Navigation = () => {
             >
               Notifications
             </Button>
-          </Link>
+          </Link> */}
           {isLoggedIn && (
             <Button
               cursor="pointer"

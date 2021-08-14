@@ -1,12 +1,14 @@
-import { Button, Image, Textarea, Box, Flex } from "@chakra-ui/react";
+import { Button, Image, useToast, Textarea, Box, Flex } from "@chakra-ui/react";
 import { useColorMode } from "@chakra-ui/react";
 import { createNewPost } from "../../features/post/postSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
 import { profileState } from "../../features/profile/profileSlice";
+import { Link } from "react-router-dom";
 
 export const NewPost = () => {
   const { colorMode } = useColorMode();
+  const toast = useToast();
   const [post, setPost] = useState({ caption: "" });
   const isDark = colorMode === "dark";
   const dispatch = useDispatch();
@@ -23,14 +25,16 @@ export const NewPost = () => {
       m="1rem"
     >
       <Flex>
-        <Image
-          src={`https://avatars.dicebear.com/api/identicon/${profile.username}.svg`}
-          boxSize="50px"
-          objectFit="cover"
-          borderRadius="full"
-          mt="1rem"
-          ml="1rem"
-        />
+        <Link to={`/profile/${profile.username}`}>
+          <Image
+            src={`https://avatars.dicebear.com/api/identicon/${profile.username}.svg`}
+            boxSize="50px"
+            objectFit="cover"
+            borderRadius="full"
+            mt="1rem"
+            ml="1rem"
+          />
+        </Link>
         <Textarea
           placeholder="What's Happening?"
           border="none"
@@ -43,9 +47,15 @@ export const NewPost = () => {
       </Flex>
       <Flex justify="flex-end" pr="1rem" align="center" w="100%" h="3rem">
         <Button
-          onClick={() => {
+          onClick={async () => {
             setPost({ caption: "" });
-            dispatch(createNewPost(post));
+            await dispatch(createNewPost(post));
+            toast({
+              title: "Post created!",
+              status: "success",
+              duration: 2000,
+              isClosable: true,
+            });
           }}
         >
           Post

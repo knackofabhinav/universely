@@ -1,10 +1,11 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { useDispatch } from "react-redux";
 import { useLocation, useNavigate } from "react-router";
 import { Flex, Text, Input, Button } from "@chakra-ui/react";
-import { login } from "../../features/userAuth/authSlice";
+import axios from "axios";
 import authState from "../../features/userAuth/authSlice";
+import { useDispatch } from "react-redux";
+import { login } from "../../features/userAuth/authSlice";
 
 export const Login = () => {
   const { isLoggedIn } = authState;
@@ -26,6 +27,22 @@ export const Login = () => {
       console.log(e);
     }
   };
+
+  // const loginHandler = async (credentials) => {
+  //   try {
+  //     const response = await axios.post("/login", credentials);
+  //     localStorage.setItem(
+  //       "authToken",
+  //       JSON.stringify(response.data?.authToken)
+  //     );
+  //     localStorage.setItem("user", JSON.stringify(response.data?.user));
+  //     axios.defaults.headers.common["Authorization"] = response.data.authToken;
+  //     navigate(location.state?.from ? location.state.from : "/");
+  //     return response;
+  //   } catch (err) {
+  //     console.log(err);
+  //   }
+  // };
 
   return (
     <>

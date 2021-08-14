@@ -1,7 +1,7 @@
 // import { API } from "../../utils/api";
 import { createSlice } from "@reduxjs/toolkit";
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { API } from "../../utils/api";
+import axios from "axios";
 
 const initialState = {
   username: "",
@@ -14,26 +14,29 @@ const initialState = {
   following: [],
 };
 
-// export const getFollowingUsers = createAsyncThunk("/following", async (username) => {
-//   try {
-//     const response = await API.get(`/following/${username}`)
-//     console.log(response.data)
-//   } catch (err) {
-//     console.error(err)
-//   }
-// })
+export const followUser = createAsyncThunk(
+  "profile/followUser",
+  async ({ username }) => {
+    try {
+      const response = await axios.post("/follow", { username });
+      console.log(response);
+    } catch (err) {
+      console.log(err);
+    }
+  }
+);
 
-// export const getUserProfile = createAsyncThunk(
-//   "/user-profile",
-//   async (username) => {
-//     try {
-//       const response = await API.get(`/${username}`);
-//       console.log(response.data);
-//     } catch (error) {
-//       console.log(error);
-//     }
-//   }
-// );
+export const unfollowUser = createAsyncThunk(
+  "profile/unfollowUser",
+  async ({ username }) => {
+    try {
+      const response = await axios.delete(`/follow/${username}`);
+      console.log(response);
+    } catch (err) {
+      console.log(err);
+    }
+  }
+);
 
 export const profileSlice = createSlice({
   name: "profile",
@@ -52,11 +55,15 @@ export const profileSlice = createSlice({
     setFollowingUsers: (state, action) => {
       state.following = action.payload;
     },
+    setFollowers: (state, action) => {
+      state.followers = action.payload;
+    },
   },
   extraReducers: {},
 });
 
-export const { setUser, setFollowingUsers } = profileSlice.actions;
+export const { setUser, setFollowers, setFollowingUsers } =
+  profileSlice.actions;
 export const profileState = (state) => state.profile;
 
 export default profileSlice.reducer;
