@@ -23,7 +23,6 @@ import { Followers } from "./pages/followers/Followers";
 function App() {
   setInitialAPI();
   const { isLoggedIn } = useSelector((state) => state.auth);
-  // const isLoggedIn = localStorage.getItem("authToken") ? true : false;
   const dispatch = useDispatch();
   const { username } = isLoggedIn && JSON.parse(localStorage.getItem("user"));
 
@@ -56,6 +55,11 @@ function App() {
                 path="/following/:username"
                 element={<Following />}
               />
+              <PrivateRoute
+                path="/followers/:username"
+                element={<Followers />}
+              />
+
               <PrivateRoute path="/notifications" element={<Notifications />} />
             </Routes>
           </GridItem>
@@ -68,12 +72,6 @@ function App() {
           <Routes>
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
-            <PrivateRoute exact path="/" element={<Homepage />} />
-            <PrivateRoute path="/profile/:username" element={<Profile />} />
-            <PrivateRoute path="/following/:username" element={<Following />} />
-            <PrivateRoute path="/followers/:username" element={<Followers />} />
-            <PrivateRoute path="/notifications" element={<Notifications />} />
-            <PrivateRoute path="/explore" element={<Explore />} />
           </Routes>
         </Flex>
       )}

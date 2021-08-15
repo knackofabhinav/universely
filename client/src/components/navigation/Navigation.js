@@ -60,18 +60,8 @@ export const Navigation = () => {
                 Home
               </Button>
             </Link>
-            <Link to="/following">
-              <Button
-                cursor="pointer"
-                variant="ghost"
-                aria-label="Following"
-                my={5}
-                w="100%"
-              >
-                Following
-              </Button>
-            </Link>
-            <Link to={`profile/${username}`}>
+
+            <Link to={`/profile/${username}`}>
               <Button
                 cursor="pointer"
                 variant="ghost"
@@ -82,6 +72,29 @@ export const Navigation = () => {
                 Profile
               </Button>
             </Link>
+            <Link to={`/following/${username}`}>
+              <Button
+                cursor="pointer"
+                variant="ghost"
+                aria-label="Following"
+                my={5}
+                w="100%"
+              >
+                Following
+              </Button>
+            </Link>
+            <Link to={`/followers/${username}`}>
+              <Button
+                cursor="pointer"
+                variant="ghost"
+                aria-label="Following"
+                my={5}
+                w="100%"
+              >
+                Followers
+              </Button>
+            </Link>
+
             {/* <Link to="/notifications">
               <Button
                 cursor="pointer"
@@ -266,7 +279,7 @@ export const Navigation = () => {
               Profile
             </Button>
           </Link>
-          {/* <Link to={`/following/${username}`}>
+          <Link to={`/following/${username}`}>
             <Button
               cursor="pointer"
               variant="ghost"
@@ -289,7 +302,7 @@ export const Navigation = () => {
             >
               Followers
             </Button>
-          </Link> */}
+          </Link>
           {!isLoggedIn && (
             <Link to="/login">
               <Button

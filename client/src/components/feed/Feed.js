@@ -8,7 +8,7 @@ import { CommentModal } from "../comment/CommentModal";
 import axios from "axios";
 import { Link } from "react-router-dom";
 
-export const Feed = ({ post, profile: profilePage, setProfile }) => {
+export const Feed = ({ post, setProfile }) => {
   const profile = useSelector(profileState);
   const { colorMode } = useColorMode();
   const isDark = colorMode === "dark";
@@ -108,15 +108,26 @@ export const Feed = ({ post, profile: profilePage, setProfile }) => {
         <Button
           backgroundColor={buttonBackgroundColor}
           onClick={async () => {
-            await dispatch(
+            const res = await dispatch(
               postLiked({ userId: profile._id, postId: post._id })
             );
-            toast({
-              title: "Post Liked!",
-              status: "success",
-              duration: 2000,
-              isClosable: true,
-            });
+            if (
+              !!res.payload.likes.filter((item) => item === profile._id).length
+            ) {
+              toast({
+                title: "Post Liked!",
+                status: "success",
+                duration: 2000,
+                isClosable: true,
+              });
+            } else {
+              toast({
+                title: "Post disliked!",
+                status: "success",
+                duration: 2000,
+                isClosable: true,
+              });
+            }
           }}
         >
           Upvote {post?.likes.length}

@@ -3,7 +3,6 @@ const router = Router();
 const { User } = require("../models/user.model");
 
 router.route("/").post(async (req, res) => {
-  console.log(req.body.username);
   try {
     const followUser = await User.findOne({ username: req.body.username });
     const user = await User.findById(req.userId);
@@ -11,21 +10,25 @@ router.route("/").post(async (req, res) => {
       (userId) => userId.toString() === user._id.toString()
     );
     if (userFound) {
-      res.status(400).json({
+      return res.status(400).json({
         success: false,
         message: "You are already following this user",
       });
-    } else {
-      user.following.push(followUser._id);
-      followUser.followers.push(user._id);
-      await user.save();
-      await followUser.save();
-      res.json({
-        success: true,
-        message: "New follower added",
-        following: user.following,
-      });
     }
+    user.following.push(followUser._id);
+    followUser.followers.push(user._id);
+    await user.save();
+    await followUser.save();
+    const followers = await User.findById(followUser._id).populate("followers");
+    const following = await User.findById(user._id).populate("following");
+    res.json({
+      success: true,
+      message: "New follower added",
+      rootUserFollowing: user.following,
+      // rootUserFollowing: following,
+      // profileUserFollowers: following,
+      profileUserFollowers: followUser.followers,
+    });
   } catch (err) {
     res.json({ success: false, message: "Failed to add user", err });
     console.log(err);
@@ -50,17 +53,25 @@ router.route("/:username").delete(async (req, res) => {
       unfollowUser.followers = updatedFollowers;
       await user.save();
       await unfollowUser.save();
+      const followers = await User.findById(unfollowUser._id).populate(
+        "followers"
+      );
+      const following = await User.findById(user._id).populate("following");
       res.json({
         success: true,
         message: "User unfollowed",
-        following: user.following,
+        // rootUserFollowing: following,
+        rootUserFollowing: user.following,
+
+        // profileUserFollowers: followers,
+        profileUserFollowers: unfollowUser.followers,
       });
     } else {
       res.status(404).json({ success: false, message: "User not found" });
     }
   } catch (err) {
     res.json({ success: false, message: "Failed to unfollow user", err });
-    // console.log(err);
+    console.log(err);
   }
 });
 

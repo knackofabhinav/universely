@@ -93,7 +93,7 @@ router.route("/liked").post(async (req, res) => {
     await post.save();
     res.json({ success: true, post });
   } catch (e) {
-    // console.log(e);
+    console.log(e);
     res.json({ success: false, errMessage: e });
   }
 });
@@ -117,7 +117,7 @@ router.route("/comment").post(async (req, res) => {
     });
     res.json({ success: true, comments: populatedPost.comments });
   } catch (e) {
-    // console.log(e);
+    console.log(e);
   }
 });
 module.exports = router;

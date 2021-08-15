@@ -28,22 +28,6 @@ export const Login = () => {
     }
   };
 
-  // const loginHandler = async (credentials) => {
-  //   try {
-  //     const response = await axios.post("/login", credentials);
-  //     localStorage.setItem(
-  //       "authToken",
-  //       JSON.stringify(response.data?.authToken)
-  //     );
-  //     localStorage.setItem("user", JSON.stringify(response.data?.user));
-  //     axios.defaults.headers.common["Authorization"] = response.data.authToken;
-  //     navigate(location.state?.from ? location.state.from : "/");
-  //     return response;
-  //   } catch (err) {
-  //     console.log(err);
-  //   }
-  // };
-
   return (
     <>
       {/* DESKTOP VIEW */}

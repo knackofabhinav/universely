@@ -5,7 +5,7 @@ import { ProfileCard } from "../../components/ProfileCard/ProfileCard";
 import { useSelector } from "react-redux";
 import { profileState } from "../../features/profile/profileSlice";
 
-export const Explore = () => {
+export const Explore = ({ desktop }) => {
   const [users, setUsers] = useState([]);
   const [searchInput, setSearchInput] = useState("");
   const filteredUsers = users.filter((user) =>
@@ -28,9 +28,11 @@ export const Explore = () => {
   return (
     //   MOBILE VIEW
     <Flex width="100%" align="center" direction="column">
-      <Text m={2} fontSize="4xl" fontWeight="bold">
-        Explore People
-      </Text>
+      {!desktop && (
+        <Text m={2} fontSize="4xl" fontWeight="bold">
+          Explore People
+        </Text>
+      )}
       <Flex width="90%">
         <Input
           onChange={(e) => setSearchInput(e.target.value)}
@@ -43,6 +45,7 @@ export const Explore = () => {
           <Flex key={user._id} width="100%" align="center" direction="column">
             <ProfileCard
               username={user.username}
+              userId={user._id}
               name={`${user.firstName} ${user.lastName}`}
               image={`https://avatars.dicebear.com/api/identicon/${user?.username}.svg`}
             />

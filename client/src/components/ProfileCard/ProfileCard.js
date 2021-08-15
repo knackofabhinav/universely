@@ -1,8 +1,16 @@
 import { Button, Image, Box, Flex, Text } from "@chakra-ui/react";
 import { useColorMode } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
+import { FollowButton } from "../../pages/profile/FollowButton";
+import { profileState } from "../../features/profile/profileSlice";
+import { useSelector } from "react-redux";
 
-export const ProfileCard = ({ username, name, following, image }) => {
+export const ProfileCard = ({ username, name, userId, image }) => {
+  const rootProfile = useSelector(profileState);
+  const profile = {
+    usename: username,
+    _id: userId,
+  };
   const { colorMode } = useColorMode();
   const isDark = colorMode === "dark";
   return (
@@ -22,13 +30,15 @@ export const ProfileCard = ({ username, name, following, image }) => {
               <Text color="GrayText">@{username}</Text>
             </Flex>
           </Flex>
-          {following ? (
-            <Button m="1rem" colorScheme="messenger">
-              Following
-            </Button>
-          ) : (
-            <Button m="1rem">Follow</Button>
-          )}
+          <Flex onClick={(e) => e.preventDefault()} p="0.5rem">
+            <FollowButton
+              username={username}
+              rootProfile={rootProfile}
+              profile={profile}
+              userId={userId}
+              profileCard
+            />
+          </Flex>
         </Flex>
       </Link>
     </Box>

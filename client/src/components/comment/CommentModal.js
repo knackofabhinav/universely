@@ -47,6 +47,7 @@ export function CommentModal({ postId }) {
       setComments((comments) =>
         res.data.comments.sort((a, b) => a.createdAt - b.createdAt)
       );
+      setComment("");
       toast({
         title: "Commented Successfully.",
         status: "success",

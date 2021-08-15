@@ -30,23 +30,47 @@ export const SideBar = () => {
           mt="2rem"
         >
           <Link to="/">
-            <Button size="lg" colorScheme="blue" variant="ghost">
+            <Button
+              cursor="pointer"
+              variant="ghost"
+              aria-label="Home"
+              my={2}
+              w="100%"
+            >
               Home
             </Button>
           </Link>
-          <Link to="/following">
-            <Button size="lg" colorScheme="blue" variant="ghost">
+          <Link to={`/profile/${username}`}>
+            <Button
+              cursor="pointer"
+              variant="ghost"
+              aria-label="Profile"
+              my={2}
+              w="100%"
+            >
+              Profile
+            </Button>
+          </Link>
+          <Link to={`/following/${username}`}>
+            <Button
+              cursor="pointer"
+              variant="ghost"
+              aria-label="Following"
+              my={2}
+              w="100%"
+            >
               Following
             </Button>
           </Link>
-          <Link to="/notifications">
-            <Button size="lg" colorScheme="blue" variant="ghost">
-              Notifications
-            </Button>
-          </Link>
-          <Link to={`/profile/${username}`}>
-            <Button size="lg" colorScheme="blue" variant="ghost">
-              Profile
+          <Link to={`/followers/${username}`}>
+            <Button
+              cursor="pointer"
+              variant="ghost"
+              aria-label="Following"
+              my={2}
+              w="100%"
+            >
+              Followers
             </Button>
           </Link>
         </Stack>

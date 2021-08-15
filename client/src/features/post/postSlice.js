@@ -7,7 +7,6 @@ const initialState = {
 export const createNewPost = createAsyncThunk("posts/create", async (post) => {
   try {
     const response = await axios.post("/posts/create", post);
-    console.log(response);
     return response?.data?.post;
   } catch (err) {
     console.log(err);
@@ -41,7 +40,6 @@ export const postSlice = createSlice({
     builder
       .addCase(createNewPost.fulfilled, (state, action) => {
         state.feed = [action.payload, ...state.feed];
-        console.log(current(state));
       })
       .addCase(postLiked.fulfilled, (state, action) => {
         state.feed.map((post) =>

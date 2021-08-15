@@ -1,5 +1,5 @@
 import { Flex, Text, Stack } from "@chakra-ui/react";
-import { ProfileCard } from "../ProfileCard/ProfileCard";
+import { Explore } from "../../pages/explore/Explore";
 
 export const RightBar = () => {
   return (
@@ -14,7 +14,7 @@ export const RightBar = () => {
         People You May Know
       </Text>
       <Stack align="center">
-        <ProfileCard
+        {/* <ProfileCard
           name={"Tanay Pratap"}
           username={"tanaypratap"}
           following={true}
@@ -29,7 +29,8 @@ export const RightBar = () => {
           image={
             "https://pbs.twimg.com/profile_images/1346370602139938818/aQrZe5M8_400x400.jpg"
           }
-        />
+        /> */}
+        <Explore desktop />
       </Stack>
     </Flex>
   );

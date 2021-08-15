@@ -20,7 +20,7 @@ router.route("/:username/following").get(async (req, res) => {
 
     res.json({ following: followedUsers });
   } catch (e) {
-    // console.log(e);
+    console.log(e);
   }
 });
 
@@ -40,7 +40,7 @@ router.route("/:username/followers").get(async (req, res) => {
 
     res.json({ followers: followingUser });
   } catch (e) {
-    // console.log(e);
+    console.log(e);
   }
 });
 
@@ -59,7 +59,7 @@ router.post("/signup", async (req, res) => {
     savedUser.password = undefined;
     res.json({ success: true, authToken, savedUser });
   } catch (e) {
-    // console.log(e);
+    console.log(e);
     res.json({ success: false, message: "Duplicate or invalid Signup" });
   }
 });
@@ -79,7 +79,7 @@ router.route("/update-profile").post(async (req, res) => {
     user.password = undefined;
     res.json({ success: true, user });
   } catch (e) {
-    // console.log(e);
+    console.log(e);
   }
 });
 
@@ -90,7 +90,7 @@ router.route("/explore").get(async (req, res) => {
     const updated = users.filter((user) => user._id != userId);
     res.json({ success: true, users: updated });
   } catch (e) {
-    // console.log(e);
+    console.log(e);
   }
 });
 
@@ -109,7 +109,7 @@ router.route("/login").post(async (req, res) => {
       res.json({ message: "Invalid Credentials" });
     }
   } catch (e) {
-    // console.log(e);
+    console.log(e);
   }
 });
 
@@ -127,7 +127,7 @@ router.route("/:username").get(async (req, res) => {
     user.password = undefined;
     res.json({ user });
   } catch (e) {
-    // console.log(e);
+    console.log(e);
   }
 });
 

@@ -28,7 +28,18 @@ export const Homepage = () => {
         width="50vw"
       >
         <NewPost />
-        <Feed />
+        {feed.length === 0 ? (
+          <Text
+            fontWeight="bold"
+            textAlign="center"
+            color="rgb(59, 59, 59)"
+            fontSize="3xl"
+          >
+            Your feed is empty
+          </Text>
+        ) : (
+          feed.map((post) => <Feed post={post} key={post?._id} />)
+        )}
       </Flex>
 
       {/* Mobile View */}

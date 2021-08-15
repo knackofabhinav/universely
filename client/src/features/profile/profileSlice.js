@@ -19,7 +19,7 @@ export const followUser = createAsyncThunk(
   async ({ username }) => {
     try {
       const response = await axios.post("/follow", { username });
-      console.log(response);
+      return response.data.rootUserFollowing;
     } catch (err) {
       console.log(err);
     }
@@ -31,7 +31,7 @@ export const unfollowUser = createAsyncThunk(
   async ({ username }) => {
     try {
       const response = await axios.delete(`/follow/${username}`);
-      console.log(response);
+      return response.data.rootUserFollowing;
     } catch (err) {
       console.log(err);
     }
@@ -59,7 +59,15 @@ export const profileSlice = createSlice({
       state.followers = action.payload;
     },
   },
-  extraReducers: {},
+  extraReducers: (builder) => {
+    builder
+      .addCase(followUser.fulfilled, (state, action) => {
+        state.following = action.payload;
+      })
+      .addCase(unfollowUser.fulfilled, (state, action) => {
+        state.following = action.payload;
+      });
+  },
 });
 
 export const { setUser, setFollowers, setFollowingUsers } =
