@@ -15,8 +15,8 @@ export const Login = () => {
   const navigate = useNavigate();
 
   const [loginCredentials, setLoginCredentials] = useState({
-    username: "",
-    password: "",
+    username: "admin",
+    password: "admin",
   });
 
   const loginHandler = async (loginCredentials) => {

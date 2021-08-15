@@ -30,16 +30,19 @@ export function CommentModal({ postId }) {
   const toast = useToast();
   const userId = useSelector(profileState)._id;
 
-  useEffect(() => {
-    (async () => {
-      if (postId) {
-        const res = await axios.get(`/posts/${postId}/comments`);
-        setComments((comments) =>
-          res.data.comments.sort((a, b) => a.createdAt - b.createdAt)
-        );
-      }
-    })();
-  }, [postId]);
+  // useEffect(() => {
+  //   (async () => {
+  //     if (postId) {
+  //     }
+  //   })();
+  // }, [postId]);
+
+  const getComments = async (postId) => {
+    const res = await axios.get(`/posts/${postId}/comments`);
+    setComments((comments) =>
+      res.data.comments.sort((a, b) => a.createdAt - b.createdAt)
+    );
+  };
 
   const postComment = async ({ postId, comment }) => {
     try {
@@ -78,7 +81,14 @@ export function CommentModal({ postId }) {
 
   return (
     <>
-      <Button onClick={onOpen}>Comment</Button>
+      <Button
+        onClick={() => {
+          onOpen();
+          getComments(postId);
+        }}
+      >
+        Comment
+      </Button>
 
       <Modal blockScrollOnMount isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />

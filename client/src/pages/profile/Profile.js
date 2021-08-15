@@ -12,7 +12,6 @@ import { AddIcon } from "@chakra-ui/icons";
 
 export const Profile = () => {
   const { username } = useParams();
-  const dispatch = useDispatch();
   const [profile, setProfile] = useState({
     username: "",
     _id: "",
@@ -29,9 +28,16 @@ export const Profile = () => {
   useEffect(() => {
     (async function () {
       const res = await axios.get(`${username}`);
-      setProfile((profile) => res.data.user);
+      console.log(res.data);
+      setProfile((profile) => ({ ...profile, ...res.data.user }));
     })();
-  }, [username, profile.posts, setProfile, rootProfile, dispatch]);
+  }, [username]);
+
+  const updatePost = async () => {
+    const res = await axios.get(`${username}`);
+    console.log(res.data);
+    setProfile((profile) => ({ ...profile, ...res.data.user }));
+  };
 
   return (
     <>
@@ -200,6 +206,7 @@ export const Profile = () => {
             {profile.posts.length !== 0 ? (
               profile.posts.map((post) => (
                 <Feed
+                  updatePost={updatePost}
                   key={post._id}
                   post={post}
                   setProfile={setProfile}

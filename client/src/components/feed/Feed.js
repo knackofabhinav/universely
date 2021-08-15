@@ -8,7 +8,7 @@ import { CommentModal } from "../comment/CommentModal";
 import axios from "axios";
 import { Link } from "react-router-dom";
 
-export const Feed = ({ post, setProfile }) => {
+export const Feed = ({ post, setProfile, updatePost }) => {
   const profile = useSelector(profileState);
   const { colorMode } = useColorMode();
   const isDark = colorMode === "dark";
@@ -16,7 +16,7 @@ export const Feed = ({ post, setProfile }) => {
   const myPost = post?.author?._id === profile._id;
   const toast = useToast();
 
-  const deletePost = async ({ postId }) => {
+  const deletePost = async ({ postId, updatePost }) => {
     try {
       const res = await axios.post("/posts/delete", { postId });
       if (res.data.success) {
@@ -114,6 +114,7 @@ export const Feed = ({ post, setProfile }) => {
             if (
               !!res.payload.likes.filter((item) => item === profile._id).length
             ) {
+              updatePost();
               toast({
                 title: "Post Liked!",
                 status: "success",
@@ -121,6 +122,7 @@ export const Feed = ({ post, setProfile }) => {
                 isClosable: true,
               });
             } else {
+              updatePost();
               toast({
                 title: "Post disliked!",
                 status: "success",

@@ -15,7 +15,7 @@ export const Homepage = () => {
       const feed = await axios.post("/feed");
       dispatch(initialFeed(feed));
     })();
-  }, [dispatch]);
+  }, []);
 
   return (
     <>
