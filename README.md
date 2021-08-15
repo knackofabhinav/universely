@@ -1,7 +1,7 @@
 # Universely - Social Media App
 A Social Media App Built using MERN stack with Chakra UI.
 
-<img src="client/src/assets/SocialMedia.gif" width="300px">
+<img src="client/src/assets/SocialMedia.gif" width="400px">
 
 # Features:
 - Follow/Unfollow User.
