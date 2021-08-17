@@ -10,6 +10,7 @@ export const NewPost = () => {
   const { colorMode } = useColorMode();
   const toast = useToast();
   const [post, setPost] = useState({ caption: "" });
+  const [loading, setLoading] = useState(false);
   const isDark = colorMode === "dark";
   const dispatch = useDispatch();
   const profile = useSelector(profileState);
@@ -47,15 +48,27 @@ export const NewPost = () => {
       </Flex>
       <Flex justify="flex-end" pr="1rem" align="center" w="100%" h="3rem">
         <Button
+          isLoading={loading}
           onClick={async () => {
             setPost({ caption: "" });
-            await dispatch(createNewPost(post));
-            toast({
-              title: "Post created!",
-              status: "success",
-              duration: 2000,
-              isClosable: true,
-            });
+            if (post.caption.length > 0) {
+              setLoading(true);
+              await dispatch(createNewPost(post));
+              toast({
+                title: "Post created!",
+                status: "success",
+                duration: 2000,
+                isClosable: true,
+              });
+              setLoading(false);
+            } else {
+              toast({
+                title: "You can't create an empty post!",
+                status: "warning",
+                duration: 2000,
+                isClosable: true,
+              });
+            }
           }}
         >
           Post

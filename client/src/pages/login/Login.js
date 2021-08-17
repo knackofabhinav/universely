@@ -1,8 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useLocation, useNavigate } from "react-router";
-import { Flex, Text, Input, Button } from "@chakra-ui/react";
-import axios from "axios";
+import { Flex, Text, Input, Button, useToast } from "@chakra-ui/react";
 import authState from "../../features/userAuth/authSlice";
 import { useDispatch } from "react-redux";
 import { login } from "../../features/userAuth/authSlice";
@@ -13,7 +12,7 @@ export const Login = () => {
   const dispatch = useDispatch();
   const location = useLocation();
   const navigate = useNavigate();
-
+  const toast = useToast();
   const [loginCredentials, setLoginCredentials] = useState({
     username: "admin",
     password: "admin",
@@ -23,6 +22,12 @@ export const Login = () => {
     try {
       await dispatch(login(loginCredentials));
       navigate(location.state?.from ? location.state.from : "/");
+      toast({
+        title: "Successfully logged in.",
+        status: "success",
+        duration: 2000,
+        isClosable: true,
+      });
     } catch (e) {
       console.log(e);
     }

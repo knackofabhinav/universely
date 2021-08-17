@@ -1,8 +1,8 @@
-import { Button, Text, Flex, Image } from "@chakra-ui/react";
+import { Button, Text, Flex, Image, Spinner } from "@chakra-ui/react";
 import { useEffect } from "react";
 import { Feed } from "../../components/feed/Feed";
 import { useParams } from "react-router";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { profileState } from "../../features/profile/profileSlice";
 import { Link } from "react-router-dom";
 import axios from "axios";
@@ -42,7 +42,18 @@ export const Profile = () => {
   return (
     <>
       {/* For Desktop View */}
-      {profile && (
+      {profile.username === "" ? (
+        <Flex
+          align="center"
+          margin="1rem"
+          direction="column"
+          justifyContent="center"
+          width="50vw"
+          display={["none", "none", "flex", "flex"]}
+        >
+          <Spinner />
+        </Flex>
+      ) : (
         <Flex
           align="center"
           margin="1rem"
@@ -148,7 +159,18 @@ export const Profile = () => {
         </Flex>
       )}
       {/* Mobile View */}
-      {profile && (
+      {profile.username === "" ? (
+        <Flex
+          align="center"
+          justify="center"
+          direction="column"
+          m="2rem"
+          width="100vw"
+          display={["flex", "flex", "none", "none"]}
+        >
+          <Spinner />
+        </Flex>
+      ) : (
         <Flex
           align="center"
           justify="center"

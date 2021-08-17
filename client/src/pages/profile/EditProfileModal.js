@@ -24,13 +24,16 @@ export function EditProfileModal() {
   const profile = useSelector(profileState);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
-    email: "",
-    bio: "",
+    firstName: profile.firstName,
+    lastName: profile.lastName,
+    email: profile.email,
+    bio: profile.bio,
   });
   const dispatch = useDispatch();
+  const [loading, setLoading] = useState(false);
+
   const updateProfile = async (formData) => {
+    setLoading(true);
     try {
       const res = await axios.post("/update-profile", {
         userDetails: formData,
@@ -46,6 +49,7 @@ export function EditProfileModal() {
           isClosable: true,
         });
       }
+      setLoading(false);
     } catch (err) {
       console.log(err);
     }
@@ -110,7 +114,13 @@ export function EditProfileModal() {
             <Button variant="ghost" onClick={onClose} mr={2}>
               Close
             </Button>
-            <Button onClick={() => updateProfile(formData)} colorScheme="blue">
+            <Button
+              isLoading={loading}
+              onClick={() => {
+                updateProfile(formData);
+              }}
+              colorScheme="blue"
+            >
               Save
             </Button>
           </ModalFooter>

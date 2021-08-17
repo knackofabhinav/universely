@@ -1,4 +1,4 @@
-import { Flex, Input, Text } from "@chakra-ui/react";
+import { Flex, Input, Text, Spinner } from "@chakra-ui/react";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { ProfileCard } from "../../components/ProfileCard/ProfileCard";
@@ -8,6 +8,7 @@ import { profileState } from "../../features/profile/profileSlice";
 export const Explore = ({ desktop }) => {
   const [users, setUsers] = useState([]);
   const [searchInput, setSearchInput] = useState("");
+  const [isLoading, setLoading] = useState(true);
   const filteredUsers = users.filter((user) =>
     user.username.includes(searchInput)
   );
@@ -16,20 +17,25 @@ export const Explore = ({ desktop }) => {
   useEffect(() => {
     (async () => {
       try {
+        setLoading(true);
         const res = await axios.get("/explore");
         const users = res.data.users.filter((user) => user._id !== profile._id);
         setUsers(users);
+        setLoading(false);
       } catch (e) {
         console.log(e);
       }
     })();
   }, [profile._id]);
 
-  return (
-    //   MOBILE VIEW
+  return isLoading ? (
+    <Flex width="100%" m="2rem" justify="center" align="center">
+      <Spinner />
+    </Flex>
+  ) : (
     <Flex width="100%" align="center" direction="column">
       {!desktop && (
-        <Text m={2} fontSize="4xl" fontWeight="bold">
+        <Text m="2rem" fontSize="2xl" fontWeight="bold">
           Explore People
         </Text>
       )}
@@ -37,7 +43,7 @@ export const Explore = ({ desktop }) => {
         <Input
           onChange={(e) => setSearchInput(e.target.value)}
           value={searchInput}
-          placeholder="let's find awesome people"
+          placeholder="Enter username"
         />
       </Flex>
       {filteredUsers.map((user) => {

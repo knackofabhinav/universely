@@ -26,8 +26,12 @@ export const ProfileCard = ({ username, name, userId, image }) => {
           <Flex direction="row" padding="1rem" align="center">
             <Image borderRadius="full" boxSize="70px" src={image} />
             <Flex direction="column" p="0.5rem">
-              <Text>{name}</Text>
-              <Text color="GrayText">@{username}</Text>
+              <Text isTruncated w="100%">
+                {name}
+              </Text>
+              <Text color="GrayText" w="100%" isTruncated>
+                @{username}
+              </Text>
             </Flex>
           </Flex>
           <Flex onClick={(e) => e.preventDefault()} p="0.5rem">

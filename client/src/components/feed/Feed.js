@@ -7,16 +7,19 @@ import { postLiked, updateFeed } from "../../features/post/postSlice";
 import { CommentModal } from "../comment/CommentModal";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import { useState } from "react";
 
 export const Feed = ({ post, setProfile, updatePost }) => {
   const profile = useSelector(profileState);
   const { colorMode } = useColorMode();
+  const [isLoading, setLoading] = useState({ like: false, delete: false });
   const isDark = colorMode === "dark";
   const dispatch = useDispatch();
   const myPost = post?.author?._id === profile._id;
   const toast = useToast();
 
   const deletePost = async ({ postId, updatePost }) => {
+    setLoading((loading) => ({ ...loading, delete: true }));
     try {
       const res = await axios.post("/posts/delete", { postId });
       if (res.data.success) {
@@ -28,6 +31,7 @@ export const Feed = ({ post, setProfile, updatePost }) => {
           duration: 2000,
           isClosable: true,
         });
+        setLoading((loading) => ({ ...loading, delete: false }));
         setProfile((profilePage) => ({
           ...profilePage,
           posts: res.data.feed.filter(
@@ -107,14 +111,16 @@ export const Feed = ({ post, setProfile, updatePost }) => {
       >
         <Button
           backgroundColor={buttonBackgroundColor}
+          isLoading={isLoading.like}
           onClick={async () => {
+            setLoading((loading) => ({ ...loading, like: true }));
             const res = await dispatch(
               postLiked({ userId: profile._id, postId: post._id })
             );
             if (
               !!res.payload.likes.filter((item) => item === profile._id).length
             ) {
-              updatePost();
+              updatePost && updatePost();
               toast({
                 title: "Post Liked!",
                 status: "success",
@@ -122,7 +128,7 @@ export const Feed = ({ post, setProfile, updatePost }) => {
                 isClosable: true,
               });
             } else {
-              updatePost();
+              updatePost && updatePost();
               toast({
                 title: "Post disliked!",
                 status: "success",
@@ -130,13 +136,19 @@ export const Feed = ({ post, setProfile, updatePost }) => {
                 isClosable: true,
               });
             }
+            setLoading((loading) => ({ ...loading, like: false }));
           }}
         >
           Upvote {post?.likes.length}
         </Button>{" "}
         <CommentModal postId={post?._id} userId={profile._id} />
         {myPost && (
-          <Button onClick={() => deletePost({ postId: post._id })}>
+          <Button
+            isLoading={isLoading.delete}
+            onClick={() => {
+              deletePost({ postId: post._id });
+            }}
+          >
             Delete
           </Button>
         )}

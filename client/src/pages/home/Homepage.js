@@ -1,19 +1,23 @@
-import { Flex, Text } from "@chakra-ui/react";
+import { Flex, Text, Spinner } from "@chakra-ui/react";
 import { NewPost } from "../../components/newPost/NewPost";
 import { Feed } from "../../components/feed/Feed";
 import { useSelector, useDispatch } from "react-redux";
 import { useEffect } from "react";
 import { initialFeed } from "../../features/post/postSlice";
 import axios from "axios";
+import { useState } from "react";
 
 export const Homepage = () => {
   const dispatch = useDispatch();
   const feed = useSelector((state) => state.posts.feed);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     (async () => {
+      setLoading(true);
       const feed = await axios.post("/feed");
       dispatch(initialFeed(feed));
+      setLoading(false);
     })();
   }, []);
 
@@ -29,14 +33,7 @@ export const Homepage = () => {
       >
         <NewPost />
         {feed.length === 0 ? (
-          <Text
-            fontWeight="bold"
-            textAlign="center"
-            color="rgb(59, 59, 59)"
-            fontSize="3xl"
-          >
-            Your feed is empty
-          </Text>
+          <Flex justify="center">{loading && <Spinner />}</Flex>
         ) : (
           feed.map((post) => <Feed post={post} key={post?._id} />)
         )}
@@ -51,9 +48,7 @@ export const Homepage = () => {
       >
         <NewPost />
         {feed.length === 0 ? (
-          <Text fontWeight="bold" color="rgb(59, 59, 59)" fontSize="3xl">
-            Your feed is empty
-          </Text>
+          <Spinner />
         ) : (
           feed.map((post) => <Feed post={post} key={post?._id} />)
         )}

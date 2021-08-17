@@ -3,6 +3,7 @@ import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { followUser, unfollowUser } from "../../features/profile/profileSlice";
 import { EditProfileModal } from "./EditProfileModal";
+import { useState } from "react";
 
 export const FollowButton = ({
   username,
@@ -12,7 +13,9 @@ export const FollowButton = ({
   userId,
 }) => {
   const toast = useToast();
+  const [isLoading, setLoading] = useState(false);
   const dispatch = useDispatch();
+
   if (username === rootProfile.username) {
     return profileCard ? (
       <Link to={`/profile/${username}`}>
@@ -28,16 +31,19 @@ export const FollowButton = ({
       return (
         <Button
           m="1rem"
-          onClick={() => {
+          isLoading={isLoading}
+          onClick={async () => {
+            setLoading(true);
             profileCard
-              ? dispatch(followUser({ username }))
-              : dispatch(followUser({ username: profile.username }));
+              ? await dispatch(followUser({ username }))
+              : await dispatch(followUser({ username: profile.username }));
             toast({
               title: `Followed ${username} Successfully.`,
               status: "success",
               duration: 2000,
               isClosable: true,
             });
+            setLoading(false);
           }}
         >
           Follow
@@ -46,18 +52,21 @@ export const FollowButton = ({
     } else {
       return (
         <Button
+          isLoading={isLoading}
           m="1rem"
           colorScheme="messenger"
-          onClick={() => {
+          onClick={async () => {
+            setLoading(true);
             profileCard
-              ? dispatch(unfollowUser({ username }))
-              : dispatch(unfollowUser({ username: profile.username }));
+              ? await dispatch(unfollowUser({ username }))
+              : await dispatch(unfollowUser({ username: profile.username }));
             toast({
               title: `Unfollowed ${username} Successfully.`,
               status: "success",
               duration: 2000,
               isClosable: true,
             });
+            setLoading(false);
           }}
         >
           Following

@@ -13,11 +13,11 @@ import {
   Text,
   Input,
   Flex,
+  Spinner,
 } from "@chakra-ui/react";
 import { DeleteIcon } from "@chakra-ui/icons";
 import { useToast } from "@chakra-ui/react";
 import { formatDistanceToNow } from "date-fns";
-import { useEffect } from "react";
 import axios from "axios";
 import { profileState } from "../../features/profile/profileSlice";
 import { useSelector } from "react-redux";
@@ -25,26 +25,33 @@ import { Link } from "react-router-dom";
 
 export function CommentModal({ postId }) {
   const [comments, setComments] = useState([]);
+  const [isLoading, setLoading] = useState({
+    posting: false,
+    gettingComments: true,
+  });
+  const [noComments, setNoComments] = useState(false);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [comment, setComment] = useState("");
   const toast = useToast();
   const userId = useSelector(profileState)._id;
 
-  // useEffect(() => {
-  //   (async () => {
-  //     if (postId) {
-  //     }
-  //   })();
-  // }, [postId]);
-
   const getComments = async (postId) => {
+    setNoComments(false);
+    setLoading((loading) => ({ ...loading, gettingComments: true }));
     const res = await axios.get(`/posts/${postId}/comments`);
     setComments((comments) =>
       res.data.comments.sort((a, b) => a.createdAt - b.createdAt)
     );
+    setLoading((loading) => ({ ...loading, gettingComments: false }));
+    if (res.data.comments.length === 0) {
+      setNoComments(true);
+    } else {
+      setNoComments(false);
+    }
   };
 
   const postComment = async ({ postId, comment }) => {
+    setLoading((loading) => ({ ...loading, posting: true }));
     try {
       const res = await axios.post("/posts/comment", { postId, comment });
       setComments((comments) =>
@@ -57,12 +64,24 @@ export function CommentModal({ postId }) {
         duration: 2000,
         isClosable: true,
       });
+      setLoading((loading) => ({ ...loading, posting: false }));
+      if (res.data.comments.length === 0) {
+        setNoComments(true);
+      } else {
+        setNoComments(false);
+      }
     } catch (err) {
       console.log(err);
     }
   };
 
   const deleteComment = async ({ postId, commentId }) => {
+    toast({
+      title: "Deleting Comment...",
+      status: "success",
+      duration: 4000,
+      isClosable: true,
+    });
     try {
       const res = await axios.delete(`/posts/${postId}/${commentId}`);
       setComments((comments) =>
@@ -74,6 +93,11 @@ export function CommentModal({ postId }) {
         duration: 2000,
         isClosable: true,
       });
+      if (res.data.comments.length === 0) {
+        setNoComments(true);
+      } else {
+        setNoComments(false);
+      }
     } catch (err) {
       console.log(err);
     }
@@ -96,7 +120,12 @@ export function CommentModal({ postId }) {
           <ModalHeader>Comments on Post</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
-            {comments.length === 0 ? (
+            {isLoading.gettingComments && (
+              <Flex justify="center">
+                <Spinner />
+              </Flex>
+            )}
+            {noComments ? (
               <Text fontWeight="bold" mb="1rem">
                 No Comments Yet!
               </Text>
@@ -158,7 +187,19 @@ export function CommentModal({ postId }) {
             />
             <Button
               colorScheme="blue"
-              onClick={() => postComment({ postId, comment })}
+              isLoading={isLoading.posting}
+              onClick={() => {
+                if (comment.length > 0) {
+                  postComment({ postId, comment });
+                } else {
+                  toast({
+                    title: "You can't do empty comments",
+                    status: "warning",
+                    duration: 2000,
+                    isClosable: true,
+                  });
+                }
+              }}
             >
               Comment
             </Button>
