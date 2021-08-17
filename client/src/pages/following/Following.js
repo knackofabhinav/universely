@@ -33,7 +33,7 @@ export const Following = () => {
           display={["none", "none", "flex", "flex"]}
         >
           {" "}
-          <Spinner />
+          <Spinner size="xl" />
         </Flex>
       ) : (
         <Flex
@@ -75,7 +75,7 @@ export const Following = () => {
           display={["flex", "flex", "none", "none"]}
         >
           {" "}
-          <Spinner />
+          <Spinner size="xl" />
         </Flex>
       ) : (
         <Flex

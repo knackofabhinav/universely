@@ -30,7 +30,7 @@ export const Explore = ({ desktop }) => {
 
   return isLoading ? (
     <Flex width="100%" m="2rem" justify="center" align="center">
-      <Spinner />
+      <Spinner size="xl" />
     </Flex>
   ) : (
     <Flex width="100%" align="center" direction="column">

@@ -30,7 +30,7 @@ export const Followers = () => {
           width="50vw"
           display={["none", "none", "flex", "flex"]}
         >
-          <Spinner />
+          <Spinner size="xl" />
         </Flex>
       ) : (
         <Flex
@@ -72,7 +72,7 @@ export const Followers = () => {
           direction="column"
           display={["flex", "flex", "none", "none"]}
         >
-          <Spinner />
+          <Spinner size="xl" />
         </Flex>
       ) : (
         <Flex
