@@ -50,7 +50,7 @@ export const Profile = () => {
           width="50vw"
           display={["none", "none", "flex", "flex"]}
         >
-          <Spinner />
+          <Spinner size="xl" />
         </Flex>
       ) : (
         <Flex
@@ -167,7 +167,7 @@ export const Profile = () => {
           width="100vw"
           display={["flex", "flex", "none", "none"]}
         >
-          <Spinner />
+          <Spinner size="xl" />
         </Flex>
       ) : (
         <Flex

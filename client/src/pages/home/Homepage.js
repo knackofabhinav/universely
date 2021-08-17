@@ -48,7 +48,7 @@ export const Homepage = () => {
       >
         <NewPost />
         {feed.length === 0 ? (
-          <Spinner />
+          <Spinner size="xl" />
         ) : (
           feed.map((post) => <Feed post={post} key={post?._id} />)
         )}

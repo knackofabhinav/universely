@@ -17,8 +17,10 @@ export const Login = () => {
     username: "admin",
     password: "admin",
   });
+  const [isLoading, setLoading] = useState(false);
 
   const loginHandler = async (loginCredentials) => {
+    setLoading(true);
     try {
       await dispatch(login(loginCredentials));
       navigate(location.state?.from ? location.state.from : "/");
@@ -28,6 +30,7 @@ export const Login = () => {
         duration: 2000,
         isClosable: true,
       });
+      setLoading(false);
     } catch (e) {
       console.log(e);
     }
@@ -80,6 +83,7 @@ export const Login = () => {
             </Button>
           </Flex>
           <Button
+            isLoading={isLoading}
             onClick={() => {
               loginHandler(loginCredentials);
             }}
@@ -155,6 +159,7 @@ export const Login = () => {
               </Button>
             </Flex>
             <Button
+              isLoading={isLoading}
               onClick={() => {
                 loginHandler(loginCredentials);
               }}
