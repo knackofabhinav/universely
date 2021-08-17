@@ -88,7 +88,7 @@ export const Followers = () => {
                 key={user._id}
                 name={`${user.firstName} ${user.lastName}`}
                 username={user.username}
-                userId={user.id}
+                userId={user._id}
                 following={true}
                 image={`https://avatars.dicebear.com/api/identicon/${user?.username}.svg`}
               />
