@@ -25,8 +25,6 @@ router.route("/").post(async (req, res) => {
       success: true,
       message: "New follower added",
       rootUserFollowing: user.following,
-      // rootUserFollowing: following,
-      // profileUserFollowers: following,
       profileUserFollowers: followUser.followers,
     });
   } catch (err) {
@@ -60,10 +58,7 @@ router.route("/:username").delete(async (req, res) => {
       res.json({
         success: true,
         message: "User unfollowed",
-        // rootUserFollowing: following,
         rootUserFollowing: user.following,
-
-        // profileUserFollowers: followers,
         profileUserFollowers: unfollowUser.followers,
       });
     } else {

@@ -10,7 +10,6 @@ export const FollowButton = ({
   profileCard,
   rootProfile,
   profile,
-  userId,
 }) => {
   const toast = useToast();
   const [isLoading, setLoading] = useState(false);

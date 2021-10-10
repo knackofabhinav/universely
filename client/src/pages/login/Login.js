@@ -75,6 +75,7 @@ export const Login = () => {
               placeholder="Password"
             />
             <Button
+              w="5rem"
               onClick={() => {
                 setShowPassword(!showPassword);
               }}
@@ -151,6 +152,7 @@ export const Login = () => {
                 placeholder="Password"
               />
               <Button
+                w="5rem"
                 onClick={() => {
                   setShowPassword(!showPassword);
                 }}

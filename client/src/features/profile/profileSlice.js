@@ -38,6 +38,13 @@ export const unfollowUser = createAsyncThunk(
   }
 );
 
+export const setUpdateUser = createAsyncThunk(
+  "profile/updateUser",
+  (user) => {
+    return user
+  }
+)
+
 export const profileSlice = createSlice({
   name: "profile",
   initialState,
@@ -66,7 +73,17 @@ export const profileSlice = createSlice({
       })
       .addCase(unfollowUser.fulfilled, (state, action) => {
         state.following = action.payload;
-      });
+      })
+      .addCase(setUpdateUser.fulfilled, (state, action) => {
+        state.username = action.payload.username;
+      state.firstName = action.payload.firstName;
+      state.lastName = action.payload.lastName;
+      state.posts = action.payload.posts;
+      state.bio = action.payload.bio;
+      state.followers = action.payload.followers;
+      state.following = action.payload.following;
+      state._id = action.payload._id;
+      })
   },
 });
 

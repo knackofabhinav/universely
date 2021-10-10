@@ -40,9 +40,6 @@ router.route("/create").post(async (req, res) => {
     const user = await User.findById(req.userId);
     const post = new Post({
       author: user._id,
-      username: user.username,
-      firstName: user.firstName,
-      lastName: user.lastName,
       caption: req.body.caption,
     });
     const savedPost = await post.save();

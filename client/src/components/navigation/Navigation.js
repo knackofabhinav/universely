@@ -49,7 +49,7 @@ export const Navigation = () => {
         </Link>
         {isLoggedIn && (
           <Flex>
-            <Link to="/">
+            {/* <Link to="/">
               <Button
                 cursor="pointer"
                 variant="ghost"
@@ -93,7 +93,7 @@ export const Navigation = () => {
               >
                 Followers
               </Button>
-            </Link>
+            </Link> */}
 
             {/* <Link to="/notifications">
               <Button

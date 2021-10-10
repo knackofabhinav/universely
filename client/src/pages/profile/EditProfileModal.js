@@ -16,7 +16,7 @@ import {
 import axios from "axios";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { profileState, setUser } from "../../features/profile/profileSlice";
+import { profileState, setUpdateUser } from "../../features/profile/profileSlice";
 import { useToast } from "@chakra-ui/react";
 
 export function EditProfileModal() {
@@ -29,7 +29,6 @@ export function EditProfileModal() {
     email: profile.email,
     bio: profile.bio,
   });
-  const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
 
   const updateProfile = async (formData) => {
@@ -40,7 +39,8 @@ export function EditProfileModal() {
         userId: profile._id,
       });
       if (res.data.success) {
-        dispatch(setUser(res.data.user));
+        console.log(res.data.user)
+        setUpdateUser(res.data.user)
         toast({
           title: "Profile updated.",
           description: "We've updated your profile successfully.",

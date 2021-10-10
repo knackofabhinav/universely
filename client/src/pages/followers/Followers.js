@@ -46,7 +46,7 @@ export const Followers = () => {
                   key={user._id}
                   name={`${user.firstName} ${user.lastName}`}
                   username={user.username}
-                  userId={user.id}
+                  userId={user._id}
                   following={true}
                   image={`https://avatars.dicebear.com/api/identicon/${user?.username}.svg`}
                 />
@@ -56,6 +56,9 @@ export const Followers = () => {
                 <Text fontSize="xl" fontWeight="bold" mt={2}>
                   No one follows you yet. ☹️
                 </Text>
+                <Link to={`/explore`}>
+                  <Button mt={3}>Go to Explore</Button>
+                </Link>
               </Flex>
             )}
           </Flex>

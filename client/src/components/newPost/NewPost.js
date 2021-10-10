@@ -20,7 +20,7 @@ export const NewPost = () => {
       justify="center"
       align="center"
       h="11rem"
-      borderWidth="1px"
+      borderWidth="5px"
       borderRadius="lg"
       bg={isDark ? "blackAlpha.600" : "whiteAlpha.600"}
       m="1rem"
@@ -49,6 +49,7 @@ export const NewPost = () => {
       <Flex justify="flex-end" pr="1rem" align="center" w="100%" h="3rem">
         <Button
           isLoading={loading}
+          color="teal"
           onClick={async () => {
             setPost({ caption: "" });
             if (post.caption.length > 0) {

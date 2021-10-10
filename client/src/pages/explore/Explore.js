@@ -46,18 +46,24 @@ export const Explore = ({ desktop }) => {
           placeholder="Enter username"
         />
       </Flex>
-      {filteredUsers.map((user) => {
-        return (
-          <Flex key={user._id} width="100%" align="center" direction="column">
-            <ProfileCard
-              username={user.username}
-              userId={user._id}
-              name={`${user.firstName} ${user.lastName}`}
-              image={`https://avatars.dicebear.com/api/identicon/${user?.username}.svg`}
-            />
-          </Flex>
-        );
-      })}
+      {filteredUsers.length > 0 ? (
+        filteredUsers.map((user) => {
+          return (
+            <Flex key={user._id} width="100%" align="center" direction="column">
+              <ProfileCard
+                username={user.username}
+                userId={user._id}
+                name={`${user.firstName} ${user.lastName}`}
+                image={`https://avatars.dicebear.com/api/identicon/${user?.username}.svg`}
+              />
+            </Flex>
+          );
+        })
+      ) : (
+        <Text m="0.5rem" fontWeight="bold">
+          No user found.
+        </Text>
+      )}
     </Flex>
   );
 };

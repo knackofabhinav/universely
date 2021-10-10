@@ -130,6 +130,7 @@ export const Profile = () => {
             {profile.posts.length !== 0 ? (
               profile.posts.map((post) => (
                 <Feed
+                  updatePost={updatePost}
                   key={post._id}
                   post={post}
                   setProfile={setProfile}

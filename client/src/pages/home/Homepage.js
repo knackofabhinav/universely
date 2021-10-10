@@ -1,4 +1,4 @@
-import { Flex, Text, Spinner } from "@chakra-ui/react";
+import { Flex, Spinner } from "@chakra-ui/react";
 import { NewPost } from "../../components/newPost/NewPost";
 import { Feed } from "../../components/feed/Feed";
 import { useSelector, useDispatch } from "react-redux";

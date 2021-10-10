@@ -47,7 +47,7 @@ export const Feed = ({ post, setProfile, updatePost }) => {
   const buttonBackgroundColor = () => {
     return post?.likes.find((id) => id === profile._id) && "teal";
   };
-
+  console.log(post)
   return (
     <Box
       w="90%"
@@ -60,9 +60,9 @@ export const Feed = ({ post, setProfile, updatePost }) => {
     >
       <Flex justify="space-between" w="100%">
         <Flex align="center" w="100%">
-          <Link to={`/profile/${post?.username}`}>
+          <Link to={`/profile/${post.author.username}`}>
             <Image
-              src={`https://avatars.dicebear.com/api/identicon/${post?.username}.svg`}
+              src={`https://avatars.dicebear.com/api/identicon/${post.author.username}.svg`}
               boxSize="50px"
               objectFit="cover"
               borderRadius="full"
@@ -76,12 +76,12 @@ export const Feed = ({ post, setProfile, updatePost }) => {
               fontWeight="bold"
               fontSize="large"
             >
-              <Link to={`/profile/${post?.username}`}>
-                {post && post.firstName + " " + post.lastName}
+              <Link to={`/profile/${post.author.username}`}>
+                {post && post.author.firstName + " " + post.author.lastName}
               </Link>
             </Text>
             <Text mx="0.3rem" color="GrayText">
-              @{post && post.username}
+              @{post && post.author.username}
             </Text>
           </Flex>
         </Flex>
