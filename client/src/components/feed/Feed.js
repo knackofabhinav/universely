@@ -47,7 +47,6 @@ export const Feed = ({ post, setProfile, updatePost }) => {
   const buttonBackgroundColor = () => {
     return post?.likes.find((id) => id === profile._id) && "teal";
   };
-  console.log(post)
   return (
     <Box
       w="90%"

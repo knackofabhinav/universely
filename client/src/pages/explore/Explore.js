@@ -9,6 +9,7 @@ export const Explore = ({ desktop }) => {
   const [users, setUsers] = useState([]);
   const [searchInput, setSearchInput] = useState("");
   const [isLoading, setLoading] = useState(true);
+
   const filteredUsers = users.filter((user) =>
     user.username.includes(searchInput)
   );

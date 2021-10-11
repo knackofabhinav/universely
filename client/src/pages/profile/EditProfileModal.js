@@ -15,7 +15,7 @@ import {
 } from "@chakra-ui/react";
 import axios from "axios";
 import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { profileState, setUpdateUser } from "../../features/profile/profileSlice";
 import { useToast } from "@chakra-ui/react";
 
@@ -39,7 +39,6 @@ export function EditProfileModal() {
         userId: profile._id,
       });
       if (res.data.success) {
-        console.log(res.data.user)
         setUpdateUser(res.data.user)
         toast({
           title: "Profile updated.",

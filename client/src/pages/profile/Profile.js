@@ -34,7 +34,6 @@ export const Profile = () => {
 
   const updatePost = async () => {
     const res = await axios.get(`${username}`);
-    console.log(res.data);
     setProfile((profile) => ({ ...profile, ...res.data.user }));
   };
 
