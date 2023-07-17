@@ -1,4 +1,4 @@
-import { Button, Image, Box, Flex, Text } from "@chakra-ui/react";
+import { Image, Box, Flex, Text } from "@chakra-ui/react";
 import { useColorMode } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
 import { FollowButton } from "../../pages/profile/FollowButton";

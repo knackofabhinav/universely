@@ -19,7 +19,7 @@ export const Homepage = () => {
       dispatch(initialFeed(feed));
       setLoading(false);
     })();
-  }, []);
+  }, [dispatch]);
 
   return (
     <>
